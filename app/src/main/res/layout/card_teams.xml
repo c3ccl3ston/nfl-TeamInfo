@@ -1,0 +1,101 @@
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    card_view:cardCornerRadius="4dp"
+    android:foreground="?android:selectableItemBackground"
+    android:layout_margin="5dp"
+    card_view:cardElevation="2dp"
+    android:stateListAnimator="@anim/card_elevation"
+    android:transitionName="team_title">
+
+    <RelativeLayout android:id="@+id/teams_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <CheckBox android:id="@+id/fav_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_vertical"
+            android:visibility="gone"/>
+
+        <ImageView android:id="@+id/teamImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/fav_selected"
+            android:contentDescription="@string/logo_description"
+            android:scaleType="fitCenter"/>
+
+        <LinearLayout android:id="@+id/LinearLayout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="false"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/teamImage"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView android:id="@+id/locationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="sans-serif-thin"
+                android:textSize="@dimen/location_size"
+                android:textColor="@android:color/black" />
+
+            <TextView android:id="@+id/teamNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@string/sansLight"
+                android:textSize="@dimen/team_name_size"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <ImageView android:id="@+id/fav_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/teamRecord"
+            android:contentDescription="@string/awayTeamImgDesc"
+            android:paddingLeft="15dp"
+            android:visibility="gone"/>
+            <!--android:src="@drawable/favorite_team"-->
+
+
+        <TextView android:id="@+id/teamRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/teamImage"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="15dp"
+            android:fontFamily="@string/sansLight"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/roster_name"
+            android:visibility="visible"/>
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

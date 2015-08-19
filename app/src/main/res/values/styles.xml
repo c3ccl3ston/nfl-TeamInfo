@@ -1,0 +1,476 @@
+<resources>
+
+    <style name="PlayerCardDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/PlayerCardDialogAnimation</item>
+    </style>
+
+    <style name="PlayerCardDialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
+    <style name="nfl_theme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@color/nfl_primary_color</item>
+        <item name="colorPrimaryDark">@color/nfl_primary_color_dark</item>
+        <item name="colorAccent">@color/nfl_color_accent</item>
+        <item name="android:textColorPrimary">@color/nfl_color_accent</item>
+        <item name="android:textColorSecondary">@color/nfl_color_accent</item>
+    </style>
+
+    <style name="nfl_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/nfl_primary_color</item>
+        <item name="android:textColorPrimary">@color/nfl_primary_color</item>
+        <item name="android:textColorSecondary">@color/nfl_primary_color</item>
+    </style>
+
+    <style name="arz_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/arz_primary_color</item>
+        <item name="colorPrimaryDark">@color/arz_primary_color_dark</item>
+        <item name="colorAccent">@color/arz_color_accent</item>
+        <item name="android:textColorSecondary">@color/arz_color_accent</item>
+        <item name="colorControlNormal">@color/arz_color_accent</item>
+    </style>
+
+    <style name="arz_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/arz_primary_color</item>
+        <item name="android:textColorPrimary">@color/arz_primary_color</item>
+        <item name="android:textColorSecondary">@color/arz_primary_color</item>
+    </style>
+
+    <style name="atl_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/atl_primary_color</item>
+        <item name="colorPrimaryDark">@color/atl_primary_color_dark</item>
+        <item name="colorAccent">@color/atl_color_accent</item>
+        <item name="android:textColorSecondary">@color/atl_color_accent</item>
+        <item name="colorControlNormal">@color/atl_color_accent</item>
+    </style>
+
+    <style name="atl_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/atl_color_accent</item>
+        <item name="android:textColorPrimary">@color/atl_color_accent</item>
+        <item name="android:textColorSecondary">@color/atl_color_accent</item>
+    </style>
+
+    <style name="bal_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/bal_primary_color</item>
+        <item name="colorPrimaryDark">@color/bal_primary_color_dark</item>
+        <item name="colorAccent">@color/bal_color_accent</item>
+        <item name="android:textColorSecondary">@color/bal_color_accent</item>
+        <item name="colorControlNormal">@color/bal_color_accent</item>
+    </style>
+
+    <style name="bal_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/bal_primary_color</item>
+        <item name="android:textColorPrimary">@color/bal_primary_color</item>
+        <item name="android:textColorSecondary">@color/bal_primary_color</item>
+    </style>
+
+    <style name="buf_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/buf_primary_color</item>
+        <item name="colorPrimaryDark">@color/buf_primary_color_dark</item>
+        <item name="colorAccent">@color/buf_color_accent</item>
+        <item name="android:textColorSecondary">@color/buf_color_accent</item>
+        <item name="colorControlNormal">@color/buf_color_accent</item>
+    </style>
+
+    <style name="buf_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/buf_primary_color</item>
+        <item name="android:textColorPrimary">@color/buf_primary_color</item>
+        <item name="android:textColorSecondary">@color/buf_primary_color</item>
+    </style>
+
+    <style name="car_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/car_primary_color</item>
+        <item name="colorPrimaryDark">@color/car_primary_color_dark</item>
+        <item name="colorAccent">@color/car_color_accent</item>
+        <item name="android:textColorSecondary">@color/car_color_accent</item>
+        <item name="colorControlNormal">@color/car_color_accent</item>
+    </style>
+
+    <style name="car_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/car_color_accent</item>
+        <item name="android:textColorPrimary">@color/car_color_accent</item>
+        <item name="android:textColorSecondary">@color/car_color_accent</item>
+    </style>
+
+    <style name="chi_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/chi_primary_color</item>
+        <item name="colorPrimaryDark">@color/chi_primary_color_dark</item>
+        <item name="colorAccent">@color/chi_color_accent</item>
+        <item name="android:textColorSecondary">@color/chi_color_accent</item>
+        <item name="colorControlNormal">@color/chi_color_accent</item>
+    </style>
+
+    <style name="chi_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/chi_primary_color</item>
+        <item name="android:textColor">@color/chi_primary_color</item>
+        <item name="android:textColorSecondary">@color/chi_primary_color</item>
+    </style>
+
+    <style name="cin_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/cin_primary_color</item>
+        <item name="colorPrimaryDark">@color/cin_primary_color_dark</item>
+        <item name="colorAccent">@color/cin_color_accent</item>
+        <item name="android:textColorSecondary">@color/cin_color_accent</item>
+        <item name="colorControlNormal">@color/cin_color_accent</item>
+    </style>
+
+    <style name="cin_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/cin_color_accent</item>
+        <item name="android:textColor">@color/cin_color_accent</item>
+        <item name="android:textColorSecondary">@color/cin_color_accent</item>
+    </style>
+
+    <style name="cle_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/cle_primary_color</item>
+        <item name="colorPrimaryDark">@color/cle_primary_color_dark</item>
+        <item name="colorAccent">@color/cle_color_accent</item>
+        <item name="android:textColorSecondary">@color/cle_color_accent</item>
+        <item name="colorControlNormal">@color/cle_color_accent</item>
+    </style>
+
+    <style name="cle_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/cle_primary_color</item>
+        <item name="android:textColor">@color/cle_primary_color</item>
+        <item name="android:textColorSecondary">@color/cle_primary_color</item>
+    </style>
+
+    <style name="dal_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/dal_primary_color</item>
+        <item name="colorPrimaryDark">@color/dal_primary_color_dark</item>
+        <item name="colorAccent">@color/dal_color_accent</item>
+        <item name="android:textColorSecondary">@color/dal_color_accent</item>
+        <item name="colorControlNormal">@color/dal_color_accent</item>
+    </style>
+
+    <style name="dal_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/dal_primary_color</item>
+        <item name="android:textColor">@color/dal_primary_color</item>
+        <item name="android:textColorSecondary">@color/dal_primary_color</item>
+    </style>
+
+    <style name="den_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/den_primary_color</item>
+        <item name="colorPrimaryDark">@color/den_primary_color_dark</item>
+        <item name="colorAccent">@color/den_color_accent</item>
+        <item name="android:textColorSecondary">@color/den_color_accent</item>
+        <item name="colorControlNormal">@color/den_color_accent</item>
+    </style>
+
+    <style name="den_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/den_color_accent</item>
+        <item name="android:textColor">@color/den_color_accent</item>
+        <item name="android:textColorSecondary">@color/den_color_accent</item>
+    </style>
+
+    <style name="det_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/det_primary_color</item>
+        <item name="colorPrimaryDark">@color/det_primary_color_dark</item>
+        <item name="colorAccent">@color/det_color_accent</item>
+        <item name="android:textColorSecondary">@color/det_color_accent</item>
+        <item name="colorControlNormal">@color/det_color_accent</item>
+    </style>
+
+    <style name="det_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/det_primary_color</item>
+        <item name="android:textColor">@color/det_primary_color</item>
+        <item name="android:textColorSecondary">@color/det_primary_color</item>
+    </style>
+
+    <style name="gb_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/gb_primary_color</item>
+        <item name="colorPrimaryDark">@color/gb_primary_color_dark</item>
+        <item name="colorAccent">@color/gb_color_accent</item>
+        <item name="android:textColorSecondary">@color/gb_color_accent</item>
+        <item name="colorControlNormal">@color/gb_color_accent</item>
+    </style>
+
+    <style name="gb_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/gb_primary_color</item>
+        <item name="android:textColor">@color/gb_primary_color</item>
+        <item name="android:textColorSecondary">@color/gb_primary_color</item>
+    </style>
+
+    <style name="hou_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/hou_primary_color</item>
+        <item name="colorPrimaryDark">@color/hou_primary_color_dark</item>
+        <item name="colorAccent">@color/hou_color_accent</item>
+        <item name="android:textColorSecondary">@color/hou_color_accent</item>
+        <item name="colorControlNormal">@color/hou_color_accent</item>
+    </style>
+
+    <style name="hou_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/hou_primary_color</item>
+        <item name="android:textColor">@color/hou_primary_color</item>
+        <item name="android:textColorSecondary">@color/hou_primary_color</item>
+    </style>
+
+    <style name="ind_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/ind_primary_color</item>
+        <item name="colorPrimaryDark">@color/ind_primary_color_dark</item>
+        <item name="colorAccent">@color/ind_color_accent</item>
+        <item name="android:textColorSecondary">@color/ind_color_accent</item>
+        <item name="colorControlNormal">@color/ind_color_accent</item>
+    </style>
+
+    <style name="ind_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/ind_primary_color</item>
+        <item name="android:textColor">@color/ind_primary_color</item>
+        <item name="android:textColorSecondary">@color/ind_primary_color</item>
+    </style>
+
+    <style name="jac_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/jac_primary_color</item>
+        <item name="colorPrimaryDark">@color/jac_primary_color_dark</item>
+        <item name="colorAccent">@color/jac_color_accent</item>
+        <item name="android:textColorSecondary">@color/jac_color_accent</item>
+        <item name="colorControlNormal">@color/jac_color_accent</item>
+    </style>
+
+    <style name="jac_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/jac_primary_color</item>
+        <item name="android:textColor">@color/jac_primary_color</item>
+        <item name="android:textColorSecondary">@color/jac_primary_color</item>
+    </style>
+
+    <style name="kc_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/kc_primary_color</item>
+        <item name="colorPrimaryDark">@color/kc_primary_color_dark</item>
+        <item name="colorAccent">@color/kc_color_accent</item>
+        <item name="android:textColorSecondary">@color/kc_color_accent</item>
+        <item name="colorControlNormal">@color/kc_color_accent</item>
+    </style>
+
+    <style name="kc_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/kc_primary_color</item>
+        <item name="android:textColor">@color/kc_primary_color</item>
+        <item name="android:textColorSecondary">@color/kc_primary_color</item>
+    </style>
+
+    <style name="mia_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/mia_primary_color</item>
+        <item name="colorPrimaryDark">@color/mia_primary_color_dark</item>
+        <item name="colorAccent">@color/mia_color_accent</item>
+        <item name="android:textColorSecondary">@color/mia_color_accent</item>
+        <item name="colorControlNormal">@color/mia_color_accent</item>
+    </style>
+
+    <style name="mia_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/mia_primary_color</item>
+        <item name="android:textColor">@color/mia_primary_color</item>
+        <item name="android:textColorSecondary">@color/mia_primary_color</item>
+    </style>
+
+    <style name="min_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/min_primary_color</item>
+        <item name="colorPrimaryDark">@color/min_primary_color_dark</item>
+        <item name="colorAccent">@color/min_color_accent</item>
+        <item name="android:textColorSecondary">@color/min_color_accent</item>
+        <item name="colorControlNormal">@color/min_color_accent</item>
+    </style>
+
+    <style name="min_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/min_primary_color</item>
+        <item name="android:textColor">@color/min_primary_color</item>
+        <item name="android:textColorSecondary">@color/min_primary_color</item>
+    </style>
+
+    <style name="ne_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/ne_primary_color</item>
+        <item name="colorPrimaryDark">@color/ne_primary_color_dark</item>
+        <item name="colorAccent">@color/ne_color_accent</item>
+        <item name="android:textColorSecondary">@color/ne_color_accent</item>
+        <item name="colorControlNormal">@color/ne_color_accent</item>
+
+    </style>
+
+    <style name="ne_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/ne_primary_color</item>
+        <item name="android:textColor">@color/ne_primary_color</item>
+        <item name="android:textColorSecondary">@color/ne_primary_color</item>
+    </style>
+
+    <style name="no_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/no_primary_color</item>
+        <item name="colorPrimaryDark">@color/no_primary_color_dark</item>
+        <item name="colorAccent">@color/no_color_accent</item>
+        <item name="android:textColorSecondary">@color/no_color_accent</item>
+        <item name="colorControlNormal">@color/no_color_accent</item>
+    </style>
+
+    <style name="no_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/no_primary_color</item>
+        <item name="android:textColor">@color/no_primary_color</item>
+        <item name="android:textColorSecondary">@color/no_primary_color</item>
+    </style>
+
+    <style name="nyg_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/nyg_primary_color</item>
+        <item name="colorPrimaryDark">@color/nyg_primary_color_dark</item>
+        <item name="colorAccent">@color/nyg_color_accent</item>
+        <item name="android:textColorSecondary">@color/nyg_color_accent</item>
+        <item name="colorControlNormal">@color/nyg_color_accent</item>
+    </style>
+
+    <style name="nyg_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/nyg_primary_color</item>
+        <item name="android:textColor">@color/nyg_primary_color</item>
+        <item name="android:textColorSecondary">@color/nyg_primary_color</item>
+    </style>
+
+    <style name="nyj_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/nyj_primary_color</item>
+        <item name="colorPrimaryDark">@color/nyj_primary_color_dark</item>
+        <item name="colorAccent">@color/nyj_color_accent</item>
+        <item name="android:textColorSecondary">@color/nyj_color_accent</item>
+        <item name="colorControlNormal">@color/nyj_color_accent</item>
+    </style>
+
+    <style name="nyj_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/nyj_primary_color</item>
+        <item name="android:textColor">@color/nyj_primary_color</item>
+        <item name="android:textColorSecondary">@color/nyj_primary_color</item>
+    </style>
+
+    <style name="oak_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/oak_primary_color</item>
+        <item name="colorPrimaryDark">@color/oak_primary_color_dark</item>
+        <item name="colorAccent">@color/oak_color_accent</item>
+        <item name="android:textColorSecondary">@color/oak_color_accent</item>
+        <item name="colorControlNormal">@color/oak_color_accent</item>
+    </style>
+
+    <style name="oak_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/oak_primary_color</item>
+        <item name="android:textColor">@color/oak_primary_color</item>
+        <item name="android:textColorSecondary">@color/oak_primary_color</item>
+    </style>
+
+    <style name="phi_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/phi_primary_color</item>
+        <item name="colorPrimaryDark">@color/phi_primary_color_dark</item>
+        <item name="colorAccent">@color/phi_color_accent</item>
+        <item name="android:textColorSecondary">@color/phi_color_accent</item>
+        <item name="colorControlNormal">@color/phi_color_accent</item>
+    </style>
+
+    <style name="phi_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/phi_primary_color</item>
+        <item name="android:textColor">@color/phi_primary_color</item>
+        <item name="android:textColorSecondary">@color/phi_primary_color</item>
+    </style>
+
+    <style name="pit_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/pit_primary_color</item>
+        <item name="colorPrimaryDark">@color/pit_primary_color_dark</item>
+        <item name="colorAccent">@color/pit_color_accent</item>
+        <item name="android:textColorSecondary">@color/pit_color_accent</item>
+        <item name="colorControlNormal">@color/pit_color_accent</item>
+    </style>
+
+    <style name="pit_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/pit_primary_color</item>
+        <item name="android:textColor">@color/pit_primary_color</item>
+        <item name="android:textColorSecondary">@color/pit_primary_color</item>
+    </style>
+
+    <style name="sd_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/sd_primary_color</item>
+        <item name="colorPrimaryDark">@color/sd_primary_color_dark</item>
+        <item name="colorAccent">@color/sd_color_accent</item>
+        <item name="android:textColorSecondary">@color/sd_color_accent</item>
+        <item name="colorControlNormal">@color/sd_color_accent</item>
+    </style>
+
+    <style name="sd_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/sd_primary_color</item>
+        <item name="android:textColor">@color/sd_primary_color</item>
+        <item name="android:textColorSecondary">@color/sd_primary_color</item>
+    </style>
+
+    <style name="sea_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/sea_primary_color</item>
+        <item name="colorPrimaryDark">@color/sea_primary_color_dark</item>
+        <item name="colorAccent">@color/sea_color_accent</item>
+        <item name="android:textColorSecondary">@color/sea_color_accent</item>
+        <item name="colorControlNormal">@color/sea_color_accent</item>
+    </style>
+
+    <style name="sea_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/sea_primary_color</item>
+        <item name="android:textColor">@color/sea_primary_color</item>
+        <item name="android:textColorSecondary">@color/sea_primary_color</item>
+    </style>
+
+    <style name="sf_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/sf_primary_color</item>
+        <item name="colorPrimaryDark">@color/sf_primary_color_dark</item>
+        <item name="colorAccent">@color/sf_color_accent</item>
+        <item name="android:textColorSecondary">@color/sf_color_accent</item>
+        <item name="colorControlNormal">@color/sf_color_accent</item>
+    </style>
+
+    <style name="sf_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/sf_primary_color</item>
+        <item name="android:textColor">@color/sf_primary_color</item>
+        <item name="android:textColorSecondary">@color/sf_primary_color</item>
+    </style>
+
+    <style name="stl_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/stl_primary_color</item>
+        <item name="colorPrimaryDark">@color/stl_primary_color_dark</item>
+        <item name="colorAccent">@color/stl_color_accent</item>
+        <item name="android:textColorSecondary">@color/stl_color_accent</item>
+        <item name="colorControlNormal">@color/stl_color_accent</item>
+    </style>
+
+    <style name="stl_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/stl_primary_color</item>
+        <item name="android:textColor">@color/stl_primary_color</item>
+        <item name="android:textColorSecondary">@color/stl_primary_color</item>
+    </style>
+
+    <style name="tb_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/tb_primary_color</item>
+        <item name="colorPrimaryDark">@color/tb_primary_color_dark</item>
+        <item name="colorAccent">@color/tb_color_accent</item>
+        <item name="android:textColorSecondary">@color/tb_color_accent</item>
+        <item name="colorControlNormal">@color/tb_color_accent</item>
+    </style>
+
+    <style name="tb_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/tb_primary_color</item>
+        <item name="android:textColor">@color/tb_primary_color</item>
+        <item name="android:textColorSecondary">@color/tb_primary_color</item>
+    </style>
+
+    <style name="ten_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/ten_primary_color</item>
+        <item name="colorPrimaryDark">@color/ten_primary_color_dark</item>
+        <item name="colorAccent">@color/ten_color_accent</item>
+        <item name="android:textColorSecondary">@color/ten_color_accent</item>
+        <item name="colorControlNormal">@color/ten_color_accent</item>
+    </style>
+
+    <style name="ten_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/ten_color_accent</item>
+        <item name="android:textColor">@color/ten_color_accent</item>
+        <item name="android:textColorSecondary">@color/ten_color_accent</item>
+    </style>
+
+    <style name="was_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/was_primary_color</item>
+        <item name="colorPrimaryDark">@color/was_primary_color_dark</item>
+        <item name="colorAccent">@color/was_color_accent</item>
+        <item name="android:textColorSecondary">@color/was_color_accent</item>
+        <item name="colorControlNormal">@color/was_color_accent</item>
+    </style>
+
+    <style name="was_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/was_primary_color</item>
+        <item name="android:textColor">@color/was_primary_color</item>
+        <item name="android:textColorSecondary">@color/was_primary_color</item>
+    </style>
+</resources>

@@ -1,0 +1,40 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="chris.eccleston.footballinfo.activities.TeamsActivity">
+    <!--<item-->
+        <!--android:id="@+id/teams_weekly_schedules"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:title="@string/title_activity_weekly_schedule"-->
+        <!--android:icon="@android:drawable/ic_menu_today"-->
+        <!--app:showAsAction="ifRoom" />-->
+    <item
+        android:id="@+id/sort_options"
+        android:orderInCategory="2"
+        android:title="@string/sort_options"
+        android:icon="@drawable/ic_menu_sort_by_size"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/teams_sort_by_location"
+                android:orderInCategory="1"
+                android:checkable="true"
+                android:title="@string/teams_sort_by_location" />
+            <item
+                android:id="@+id/teams_sort_by_name"
+                android:orderInCategory="2"
+                android:checkable="true"
+                android:title="@string/teams_sort_by_name" />
+            <item
+                android:id="@+id/teams_sort_by_record"
+                android:orderInCategory="3"
+                android:checkable="true"
+                android:title="@string/teams_sort_by_record" />
+            <item
+                android:id="@+id/teams_sort_by_division"
+                android:orderInCategory="4"
+                android:checkable="true"
+                android:title="@string/teams_sort_by_division" />
+        </menu>
+    </item>
+</menu>

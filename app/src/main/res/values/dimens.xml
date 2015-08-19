@@ -1,0 +1,30 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="location_size">15dp</dimen>
+    <dimen name="team_name_size">25dp</dimen>
+    <dimen name="roster_name">20dp</dimen>
+    <dimen name="number_location">10dp</dimen>
+    <dimen name="position_location">15dp</dimen>
+    <dimen name="roster_name_location">10dp</dimen>
+    <dimen name="teamLogo_paddingLeft">5dp</dimen>
+    <dimen name="header_text_size">15dp</dimen>
+    <dimen name="layout_schedule_item_date">15sp</dimen>
+    <dimen name="layout_schedule_item_scores">20sp</dimen>
+    <dimen name="layout_schedule_item_win_or_loss">20sp</dimen>
+    <dimen name="layout_schedule_item_against_team">18sp</dimen>
+    <dimen name="layout_schedule_item_home_text">18sp</dimen>
+    <dimen name="layout_schedule_item_week_text">15sp</dimen>
+    <dimen name="layout_schedule_item_time_text">30sp</dimen>
+    <dimen name="layout_schedule_item_pm_text">11sp</dimen>
+    <dimen name="layout_schedule_item_et_text">14sp</dimen>
+    <dimen name="layout_schedule_item_bye_week">20sp</dimen>
+    <dimen name="stat_text_size">15dp</dimen>
+    <dimen name="weekly_schedule_header">18sp</dimen>
+
+    <!-- Action Bar auto-hide-on-scroll behavior parameters -->
+    <dimen name="action_bar_auto_hide_min_y">152dp</dimen>
+    <dimen name="action_bar_auto_hide_sensivity">48dp</dimen>
+</resources>

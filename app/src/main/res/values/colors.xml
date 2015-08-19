@@ -1,0 +1,142 @@
+<resources>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="nfl_primary_color">#FF003A73</color>
+    <color name="nfl_primary_color_dark">#FF003060</color>
+    <color name="nfl_color_accent">#FFFFFFFF</color>
+
+    <color name="arz_primary_color">#FF97233F</color>
+    <color name="arz_primary_color_dark">#FF771c32</color>
+    <color name="arz_color_accent">#FFFFFFFF</color>
+
+    <color name="atl_primary_color">#FFBD0D18</color>
+    <color name="atl_primary_color_dark">#FF980a13</color>
+    <color name="atl_color_accent">#FF000000</color>
+
+    <color name="bal_primary_color">#FF1E1656</color>
+    <color name="bal_primary_color_dark">#FF191246</color>
+    <color name="bal_color_accent">#FFE2BE10</color>
+
+    <color name="buf_primary_color">#FF004089</color>
+    <color name="buf_primary_color_dark">#FF002e62</color>
+    <color name="buf_color_accent">#FFFFFFFF</color>
+
+    <color name="car_primary_color">#FF0099D7</color>
+    <color name="car_primary_color_dark">#FF007db0</color>
+    <color name="car_color_accent">#FF000000</color>
+
+    <color name="chi_primary_color">#FF052b54</color>
+    <color name="chi_primary_color_dark">#FF042141</color>
+    <color name="chi_color_accent">#FFDF6108</color>
+
+    <color name="cin_primary_color">#FFFB4F14</color>
+    <color name="cin_primary_color_dark">#FFe43d04</color>
+    <color name="cin_color_accent">#FF000000</color>
+
+    <color name="cle_primary_color">#FF3d3229</color>
+    <color name="cle_primary_color_dark">#FF312721</color>
+    <color name="cle_color_accent">#FFFB4F14</color>
+
+    <color name="dal_primary_color">#FF13356e</color>
+    <color name="dal_primary_color_dark">#FF0d254c</color>
+    <color name="dal_color_accent">#FFC5CED6</color>
+
+    <color name="den_primary_color">#FFfb4f14</color>
+    <color name="den_primary_color_dark">#FFe43d04</color>
+    <color name="den_color_accent">#FF10274C</color>
+
+    <color name="det_primary_color">#FF006ea1</color>
+    <color name="det_primary_color_dark">#FF00537a</color>
+    <color name="det_color_accent">#FFFFFFFF</color>
+
+    <color name="gb_primary_color">#FF3a4a3f</color>
+    <color name="gb_primary_color_dark">#FF28342d</color>
+    <color name="gb_color_accent">#FFF4C800</color>
+
+    <color name="hou_primary_color">#FF0d3562</color>
+    <color name="hou_primary_color_dark">#FF08223f</color>
+    <color name="hou_color_accent">#FFB21E35</color>
+
+    <color name="ind_primary_color">#FF02438c</color>
+    <color name="ind_primary_color_dark">#FF023166</color>
+    <color name="ind_color_accent">#FFFFFFFF</color>
+
+    <color name="jac_primary_color">#FF007198</color>
+    <color name="jac_primary_color_dark">#FF005471</color>
+    <color name="jac_color_accent">#FFFFFFFF</color>
+
+    <color name="kc_primary_color">#FFb21e35</color>
+    <color name="kc_primary_color_dark">#FF90182b</color>
+    <color name="kc_color_accent">#FFF2C800</color>
+
+    <color name="mia_primary_color">#FF008D97</color>
+    <color name="mia_primary_color_dark">#FF006870</color>
+    <color name="mia_color_accent">#FFFFFFFF</color>
+
+    <color name="min_primary_color">#FF470173</color>
+    <color name="min_primary_color_dark">#FF3B0160</color>
+    <color name="min_color_accent">#FFF0BF00</color>
+
+    <color name="ne_primary_color">#FF102d5d</color>
+    <color name="ne_primary_color_dark">#FF0D254C</color>
+    <color name="ne_color_accent">#FFC0001D</color>
+
+    <color name="no_primary_color">#FF141414</color>
+    <color name="no_primary_color_dark">#FF000000</color>
+    <color name="no_color_accent">#FFBB8C3C</color>
+
+    <color name="nyg_primary_color">#FF1d367b</color>
+    <color name="nyg_primary_color_dark">#FF15285b</color>
+    <color name="nyg_color_accent">#FFCA0019</color>
+
+    <color name="nyj_primary_color">#FF104725</color>
+    <color name="nyj_primary_color_dark">#FF082715</color>
+    <color name="nyj_color_accent">#FFFFFFFF</color>
+
+    <color name="oak_primary_color">#FF141414</color>
+    <color name="oak_primary_color_dark">#FF000000</color>
+    <color name="oak_color_accent">#FFC4C8CB</color>
+
+    <color name="phi_primary_color">#FF004b56</color>
+    <color name="phi_primary_color_dark">#FF003A42</color>
+    <color name="phi_color_accent">#FFFFFFFF</color>
+
+    <color name="pit_primary_color">#FF141414</color>
+    <color name="pit_primary_color_dark">#FF000000</color>
+    <color name="pit_color_accent">#FFF2C800</color>
+
+    <color name="sd_primary_color">#FF0a295c</color>
+    <color name="sd_primary_color_dark">#FF08214A</color>
+    <color name="sd_color_accent">#FFF0C818</color>
+
+    <color name="sea_primary_color">#FF0f2c51</color>
+    <color name="sea_primary_color_dark">#FF0C2340</color>
+    <color name="sea_color_accent">#FF78BE20</color>
+
+    <color name="sf_primary_color">#FFC80815</color>
+    <color name="sf_primary_color_dark">#FFa20611</color>
+    <color name="sf_color_accent">#FFC6A463</color>
+
+    <color name="stl_primary_color">#FF172e5b</color>
+    <color name="stl_primary_color_dark">#FF13264B</color>
+    <color name="stl_color_accent">#FFC9AF74</color>
+
+    <color name="tb_primary_color">#FFB20032</color>
+    <color name="tb_primary_color_dark">#FF8b0027</color>
+    <color name="tb_color_accent">#FF000000</color>
+
+    <color name="ten_primary_color">#FF648FCC</color>
+    <color name="ten_primary_color_dark">#FF467ac2</color>
+    <color name="ten_color_accent">#FF0D254C</color>
+
+    <color name="was_primary_color">#FF7d0008</color>
+    <color name="was_primary_color_dark">#FF690007</color>
+    <color name="was_color_accent">#FFFFB612</color>
+
+    <color name="gray">#FF828282</color>
+    <color name="black">#FF000000</color>
+    <color name="red">#FFFF0000</color>
+    <color name="green">#FF8BC53F</color>
+    <color name="light_gray">#FFEEEEEE</color>
+
+</resources>

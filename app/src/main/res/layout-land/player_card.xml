@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/player_root"
+    android:layout_width="320dp"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:id="@+id/header_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buf_primary_color"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true">
+
+            <TextView
+                android:id="@+id/player_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@string/sansLight"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="#13"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/player_first_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chris"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:layout_rowWeight="1"
+                android:gravity="bottom"
+                android:layout_gravity="bottom"
+                android:layout_columnWeight="1"
+                android:layout_alignTop="@+id/player_num"
+                android:layout_toRightOf="@+id/player_num" />
+
+            <TextView
+                android:id="@+id/player_last_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:gravity="top"
+                android:text="Bethel-Thompson"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                android:singleLine="false"
+                android:layout_rowWeight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:layout_columnWeight="1"
+                android:layout_toRightOf="@+id/player_num"
+                android:layout_alignBottom="@+id/player_num" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/player_headshot"
+            android:layout_width="125dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="@dimen/number_location"
+            android:layout_marginRight="@dimen/number_location"
+            android:layout_marginTop="@dimen/number_location"
+            android:background="@color/black"
+            android:contentDescription="@string/player_headshot_description"
+            android:padding="1dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/no_headshot"
+            android:layout_below="@+id/header_bg" />
+
+        <TextView
+            android:id="@+id/player_pos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:maxWidth="136dp"
+            android:layout_toRightOf="@+id/player_headshot"
+            android:layout_below="@+id/header_bg"
+            android:layout_marginTop="@dimen/number_location"
+            android:layout_marginRight="@dimen/number_location" />
+
+        <TextView
+            android:id="@+id/player_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/number_location"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:layout_below="@+id/player_pos"
+            android:layout_toRightOf="@+id/player_headshot" />
+
+        <TextView
+            android:id="@+id/player_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/number_location"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/player_headshot"
+            android:layout_below="@+id/player_height" />
+
+        <TextView
+            android:id="@+id/player_born"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/player_headshot"
+            android:layout_below="@+id/player_weight"
+            android:layout_marginRight="@dimen/number_location" />
+
+        <TextView
+            android:id="@+id/player_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/player_headshot"
+            android:layout_below="@+id/player_born"
+            android:layout_marginRight="@dimen/number_location" />
+
+        <TextView
+            android:id="@+id/player_college"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/player_headshot"
+            android:layout_below="@+id/player_age"
+            android:layout_marginRight="@dimen/number_location" />
+
+        <TextView
+            android:id="@+id/player_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/player_headshot"
+            android:layout_marginRight="@dimen/number_location"
+            android:layout_below="@+id/player_college" />
+
+        <Space
+            android:id="@+id/first_space"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_below="@+id/player_headshot" />
+
+        <TextView
+            android:id="@+id/stats_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansLight"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/black"
+            android:layout_below="@+id/first_space"
+            android:layout_marginLeft="@dimen/number_location" />
+
+        <Space
+            android:id="@+id/second_space"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_below="@+id/stats_header" />
+
+        <TextView
+            android:id="@+id/stat_one_header"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/stat_text_size"
+            android:textStyle="bold"
+            android:layout_below="@+id/second_space"
+            android:background="@color/arz_primary_color"
+            android:layout_alignParentEnd="false"
+            android:layout_marginLeft="@dimen/number_location" />
+
+        <TextView
+            android:id="@+id/stat_one"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/stat_bg"
+            android:fontFamily="sansLight"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="10dp"
+            android:text="@string/double_dash"
+            android:textColor="@color/black"
+            android:layout_below="@+id/stat_one_header"
+            android:layout_alignEnd="@id/stat_one_header"
+            android:layout_alignStart="@id/stat_one_header" />
+
+        <Space
+            android:id="@+id/space_stat_one"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/stat_one_header"
+            android:layout_toRightOf="@+id/stat_one_header" />
+
+        <TextView
+            android:id="@+id/stat_two_header"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/stat_text_size"
+            android:textStyle="bold"
+            android:layout_below="@+id/second_space"
+            android:background="@color/arz_primary_color"
+            android:layout_toRightOf="@+id/space_stat_one" />
+
+        <TextView
+            android:id="@+id/stat_two"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/stat_bg"
+            android:fontFamily="sansLight"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="10dp"
+            android:text="@string/double_dash"
+            android:textColor="@color/black"
+            android:layout_alignParentStart="false"
+            android:layout_alignEnd="@id/stat_two_header"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/stat_two_header"
+            android:layout_alignStart="@id/stat_two_header" />
+
+        <Space
+            android:id="@+id/space_two_header"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/stat_two_header"
+            android:layout_toRightOf="@+id/stat_two_header" />
+
+        <TextView
+            android:id="@+id/stat_three_header"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/sansDefault"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="@dimen/stat_text_size"
+            android:textStyle="bold"
+            android:layout_below="@+id/second_space"
+            android:background="@color/arz_primary_color"
+            android:layout_toRightOf="@+id/space_two_header" />
+
+        <TextView
+            android:id="@+id/stat_three"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/stat_bg"
+            android:fontFamily="sansLight"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="10dp"
+            android:text="@string/double_dash"
+            android:textColor="@color/black"
+            android:layout_below="@+id/stat_three_header"
+            android:layout_toRightOf="@+id/stat_two"
+            android:layout_alignEnd="@id/stat_three_header"
+            android:layout_alignLeft="@+id/stat_three_header"
+            android:layout_alignParentEnd="false" />
+
+        <Space
+            android:id="@+id/space"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:layout_below="@+id/stat_three" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

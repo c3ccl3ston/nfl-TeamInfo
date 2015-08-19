@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">NFL Teams</string>
+    <string name="nfl_teams">Teams</string>
+    <string name="action_settings">Sort</string>
+    <string name="title_activity_teams">NFL Teams</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="logo_description">Team Image</string>
+    <string name="title_roster">Roster</string>
+    <string name="title_news">News</string>
+    <string name="title_schedule">Schedule</string>
+    <string name="title_activity_roster">Roster</string>
+    <string name="sansLight">sans-serif-light</string>
+    <string name="sansDefault">sans-serif</string>
+    <string name="awayTeamImgDesc">Away Team Logo</string>
+    <string name="title_activity_new_article">New Article</string>
+    <string name="header_position">Pos.</string>
+    <string name="header_last_name_comma">Last Name, First Name</string>
+    <string name="header_number">#</string>
+    <string name="title_team_info">Team Info</string>
+    <string name="player_height">"Height: "</string>
+    <string name="player_weight">"Weight: "</string>
+    <string name="player_age">"Age: "</string>
+    <string name="player_born">"Born: "</string>
+    <string name="player_college">"College: "</string>
+    <string name="player_exp">"Experience: "</string>
+    <string name="player_headshot_description">Player Headshot</string>
+    <string name="layout_schedule_item_bye_week">BYE WEEK</string>
+    <string name="double_dash">--</string>
+    <string name="layout_schedule_item_pm_text">PM</string>
+    <string name="layout_schedule_item_et_text">ET</string>
+    <string name="refresh">Refresh</string>
+    <string name="ic_menu_sort">Sort</string>
+    <string name="ic_menu_favorite_team">Select Favorite Team</string>
+    <string name="ic_menu_clear">Clear Favorite Team</string>
+    <string name="ic_menu_refresh_all_string">Refresh All</string>
+    <string name="ic_menu_refresh_team_info_string">Refresh Team Info</string>
+    <string name="ic_menu_refresh_schedules_string">Refresh Schedules</string>
+    <string name="ic_menu_refresh_news_string">Refresh News</string>
+    <string name="ic_menu_refresh_rosters_string">Refresh Rosters</string>
+    <string name="title_section1">Teams</string>
+    <string name="title_section2">Weekly Schedule</string>
+    <string name="title_section3">Section 3</string>
+    <string name="ic_menu_sort_location_string">Sort by Location</string>
+    <string name="ic_menu_sort_team_name_string">Sort by Team Name</string>
+    <string name="ic_menu_sort_record_string">Sort by Record</string>
+    <string name="ic_menu_sort_division_string">Sort by Division</string>
+    <string name="title_activity_weekly_schedule">Weekly Schedules</string>
+    <string name="title_activity_team">TeamActivity</string>
+
+    <string name="team_info_fragment_title">Info</string>
+    <string name="team_schedule_fragment_title">Schedule</string>
+    <string name="team_news_fragment_title">News</string>
+    <string name="team_roster_fragment_title">Roster</string>
+    <string name="roster_sort_by_name">Sort by Name</string>
+    <string name="roster_sort_by_number">Sort by Number</string>
+    <string name="roster_sort_by_position">Sort by Position</string>
+    <string name="teams_sort_by_location">Sort by Location</string>
+    <string name="teams_sort_by_name">Sort by Team Name</string>
+    <string name="teams_sort_by_record">Sort by Record</string>
+    <string name="teams_sort_by_division">Sort by Division</string>
+    <string name="sort_options">Sort Options</string>
+
+</resources>
