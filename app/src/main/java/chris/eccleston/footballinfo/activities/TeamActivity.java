@@ -4,11 +4,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -85,6 +83,9 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         mToolbar.setPopupTheme(popup_theme);
         setTheme(theme);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
+        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, mColorAccent));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Initialize the ViewPager and set an adapter
         mfa = new MyFragmentAdapter(getSupportFragmentManager(), this, mTeam, mRoster);
@@ -103,14 +104,13 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
             tintManager.setTintColor(darken(mColorPrimary, 0.25));
             getWindow().setStatusBarColor(darken(mColorPrimary, 0.25));
         }
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
+
         mTabs.setTabTextColors(mColorAccent, mColorAccent);
         mTabs.setBackgroundColor(mColorPrimary);
         mTabs.setOnTabSelectedListener(this);
         mToolbar.setTitleTextColor(mColorAccent);
         mToolbar.setSubtitleTextColor(mColorAccent);
-        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, mColorAccent));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mPager.setPageTransformer(true, new DepthPageTransformer());
     }
 
@@ -173,7 +173,9 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         getMenuInflater().inflate(R.menu.menu_team_roster, mOptionsMenu);
 
         if (mPager.getCurrentItem() != 1) {
-            return false;
+            menu.findItem(R.id.sort).setVisible(false);
+        } else {
+            menu.findItem(R.id.sort).setVisible(true);
         }
 
         mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, mColorAccent));
@@ -190,22 +192,11 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         return super.onPrepareOptionsMenu(mOptionsMenu);
     }
 
-    public void setSortIcon(MenuItem item) {
-        Drawable arrowDrawable = getResources().getDrawable(R.drawable.ic_menu_sort_by_size);
-        Drawable wrapped = DrawableCompat.wrap(arrowDrawable);
-
-        if (arrowDrawable != null && wrapped != null) {
-            arrowDrawable.mutate();
-            DrawableCompat.setTint(wrapped, mColorAccent);
-        }
-
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (item.isChecked() || item.getItemId() != R.id.sort) {
+        if (item.isChecked() && item.getItemId() != R.id.sort) {
             Collections.reverse(mRoster);
         } else {
             switch (id) {
@@ -263,11 +254,15 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         View view = mPager.getFocusedChild();
-        if (mPager.getCurrentItem() == 0 || mPager.getCurrentItem() == 1) {
-            ((RecyclerView) view.findViewById(R.id.cardList)).scrollToPosition(0);
-        }
-        if (mPager.getCurrentItem() == 2) {
-            view.findViewById(R.id.webScroll).scrollTo(0, 0);
+        if (view != null) {
+            if (mPager.getCurrentItem() == 0 || mPager.getCurrentItem() == 1) {
+                ((RecyclerView) view.findViewById(R.id.cardList)).scrollToPosition(0);
+            }
+            if (mPager.getCurrentItem() == 2) {
+                if (view.findViewById(R.id.webScroll) != null) {
+                    view.findViewById(R.id.webScroll).scrollTo(0, 0);
+                }
+            }
         }
     }
 }

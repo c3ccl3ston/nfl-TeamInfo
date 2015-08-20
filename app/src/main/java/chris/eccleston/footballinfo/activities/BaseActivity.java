@@ -22,22 +22,25 @@ import chris.eccleston.footballinfo.types.Team;
 public class BaseActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "PREFERENCES";
-
+    public static int TEAMS_SORT_ORDER = 0;
+    public static int SORT_ORDER = -1;
+    public static Toolbar mToolbar;
     public final int SORT_BY_NAME = 0;
     public final int SORT_BY_NUMBER = 1;
     public final int SORT_BY_POSITION = 2;
-
     public final int SORT_BY_LOCATION = 0;
     public final int SORT_BY_TEAMNAME = 1;
     public final int SORT_BY_RECORD = 2;
     public final int SORT_BY_DIVISION = 3;
-
-    public static int TEAMS_SORT_ORDER = 0;
-    public static int SORT_ORDER = 0;
-
     public final String TEAM_ID = "teamID";
 
-    public static Toolbar mToolbar;
+    public static void updateSubtitle(Team team) {
+        if (team.getTies() != 0) {
+            mToolbar.setSubtitle("(" + team.getWins() + " - " + team.getLosses() + " - " + team.getTies() + ")");
+        } else {
+            mToolbar.setSubtitle("(" + team.getWins() + " - " + team.getLosses() + ")");
+        }
+    }
 
     public Drawable colorizeIcon(int icon, int color) {
         Drawable arrowDrawable = getResources().getDrawable(icon);
@@ -194,13 +197,5 @@ public class BaseActivity extends AppCompatActivity {
         });
         TEAMS_SORT_ORDER = SORT_BY_DIVISION;
         return teams;
-    }
-
-    public static void updateSubtitle(Team team) {
-        if (team.getTies() != 0) {
-            mToolbar.setSubtitle("(" + team.getWins() + " - " + team.getLosses() + " - " + team.getTies() + ")");
-        } else {
-            mToolbar.setSubtitle("(" + team.getWins() + " - " + team.getLosses() + ")");
-        }
     }
 }
