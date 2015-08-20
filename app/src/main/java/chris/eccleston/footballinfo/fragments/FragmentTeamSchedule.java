@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chris.eccleston.footballinfo.R;
+import chris.eccleston.footballinfo.adapters.TeamScheduleAdapter;
 import chris.eccleston.footballinfo.tasks.UpdateSchedule;
 import chris.eccleston.footballinfo.types.Schedule;
 import chris.eccleston.footballinfo.types.Team;
-import chris.eccleston.footballinfo.adapters.TeamScheduleAdapter;
 
 public class FragmentTeamSchedule extends BaseFragment {
     public static SwipeRefreshLayout refreshScheduleList;
     public static TeamScheduleAdapter ca;
     public static LinearLayoutManager llm;
-    protected static Team mTeam;
     public static List<Schedule> schedule = new ArrayList<Schedule>();
+    protected static Team mTeam;
 
     public FragmentTeamSchedule() {}
 
@@ -54,7 +54,7 @@ public class FragmentTeamSchedule extends BaseFragment {
             public void onRefresh() {
                 refreshScheduleList.setRefreshing(true);
                 UpdateSchedule updateTask = new UpdateSchedule(getActivity());
-                updateTask.setmSingleTeam(true);
+                updateTask.setSingleTeam(true);
                 Team[] team = {mTeam};
                 updateTask.execute(team);
             }

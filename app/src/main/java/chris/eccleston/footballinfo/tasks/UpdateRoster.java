@@ -18,8 +18,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import chris.eccleston.footballinfo.R;
-import chris.eccleston.footballinfo.activities.TeamActivity;
 import chris.eccleston.footballinfo.fragments.FragmentTeamRoster;
 import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
@@ -36,10 +34,10 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
             "oak/oakland-raiders", "phi/philadelphia-eagles", "pit/pittsburgh-steelers", "sd/san-diego-chargers", "sea/seattle-seahawks", "sf/san-francisco-49ers",
             "stl/st-louis-rams", "tb/tampa-bay-buccaneers", "ten/tennessee-titans", "wsh/washington-redskins"};
     public ProgressDialog progress_dialog;
+    public int mSortOrder;
     private boolean singleTeam;
     private Team s_team;
     private Context mContext;
-    public int mSortOrder;
 
     public UpdateRoster(Context context) {
         mContext = context;
@@ -105,13 +103,21 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
 
                         number = player.child(0).text();
                         full_name = player.child(1).text();
-                        if(full_name.indexOf(' ') == full_name.lastIndexOf(' ')) {
+
+                        if (full_name.indexOf(' ') == full_name.lastIndexOf(' ')) {
                             first_name = full_name.substring(0, full_name.indexOf(' '));
                             last_name = full_name.substring(full_name.indexOf(' ') + 1);
                         } else {
-                            first_name = full_name.substring(0, full_name.indexOf(' ', full_name.indexOf(' ' ) + 1));
-                            last_name = full_name.substring(full_name.indexOf(' ', full_name.indexOf(' ') + 1) + 1);
+                            if (full_name.substring(full_name.lastIndexOf(' ') + 1).contains("Jr.") || full_name.substring(full_name.lastIndexOf(' ') + 1).contains("Sr.") ||
+                                    full_name.substring(full_name.lastIndexOf(' ') + 1).contains("III") || full_name.substring(full_name.lastIndexOf(' ') + 1).contains("II")) {
+                                first_name = full_name.substring(0, full_name.indexOf(' '));
+                                last_name = full_name.substring(full_name.indexOf(' ') + 1);
+                            } else {
+                                first_name = full_name.substring(0, full_name.indexOf(' ', full_name.indexOf(' ') + 1));
+                                last_name = full_name.substring(full_name.indexOf(' ', full_name.indexOf(' ') + 1) + 1);
+                            }
                         }
+
                         position = player.child(2).text();
                         exp = player.child(6).text();
                         college = player.child(7).text();
@@ -174,19 +180,19 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
                             String s1_number = s1.getNumber();
                             String s2_number = s2.getNumber();
                             int num_one, num_two;
-                            if(s1_number.equals("--")) {
+                            if (s1_number.equals("--")) {
                                 num_one = 0;
                             } else {
                                 num_one = Integer.parseInt(s1_number);
                             }
-                            if(s2_number.equals("--")) {
+                            if (s2_number.equals("--")) {
                                 num_two = 0;
                             } else {
                                 num_two = Integer.parseInt(s2_number);
                             }
-                            if(num_one == num_two) {
+                            if (num_one == num_two) {
                                 return s1.getLastName().compareToIgnoreCase(s2.getLastName());
-                            } else if(num_one < num_two) {
+                            } else if (num_one < num_two) {
                                 return -1;
                             } else {
                                 return 1;
@@ -221,9 +227,6 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

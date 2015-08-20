@@ -43,14 +43,12 @@ public class TeamsActivity extends BaseActivity {
     public static TeamAdapter teamAdapter;
     public static boolean initial_load;
     public static Context m;
-
+    public static SwipeRefreshLayout refreshTeamsList;
     protected Menu mOptionsMenu;
-
     @InjectView(R.id.toolbar)
     Toolbar toolbar;
     @InjectView(R.id.cardList)
     RecyclerView teamsList;
-    public static SwipeRefreshLayout refreshTeamsList;
     private StickyRecyclerHeadersDecoration srhd;
 
     @Override
@@ -104,7 +102,7 @@ public class TeamsActivity extends BaseActivity {
             public void onRefresh() {
                 refreshTeamsList.setRefreshing(true);
                 UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
-                updateScheduleTask.setmSingleTeam(false);
+                updateScheduleTask.setSingleTeam(false);
                 updateScheduleTask.setTeamAdapter(teamAdapter);
                 Team[] teams_array = new Team[32];
                 for (int i = 0; i < teams.size(); i++) {
@@ -279,7 +277,7 @@ public class TeamsActivity extends BaseActivity {
         super.onPause();
         teamPosition = ((LinearLayoutManager) teamsList.getLayoutManager()).findFirstVisibleItemPosition();
         try {
-            offset = ((LinearLayoutManager) teamsList.getLayoutManager()).getChildAt(0).getTop() - 15;
+            offset = teamsList.getLayoutManager().getChildAt(0).getTop() - 15;
         } catch (NullPointerException npe) {
             Log.e("ERROR", "Cannot get top of null object");
         }
@@ -337,7 +335,7 @@ public class TeamsActivity extends BaseActivity {
 
     private void initSchedulesDB() {
         UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
-        updateScheduleTask.setmSingleTeam(false);
+        updateScheduleTask.setSingleTeam(false);
         updateScheduleTask.setTeamAdapter(teamAdapter);
         Team[] teams_array = new Team[32];
         for (int i = 0; i < teams.size(); i++) {
@@ -389,7 +387,7 @@ public class TeamsActivity extends BaseActivity {
         protected Void doInBackground(Void... params) {
             for (Team t : Team.listAll(Team.class)) {
                 UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
-                updateScheduleTask.setmSingleTeam(false);
+                updateScheduleTask.setSingleTeam(false);
                 updateScheduleTask.setTeamAdapter(teamAdapter);
                 Team[] teams_array = new Team[32];
                 for (int i = 0; i < teams.size(); i++) {
