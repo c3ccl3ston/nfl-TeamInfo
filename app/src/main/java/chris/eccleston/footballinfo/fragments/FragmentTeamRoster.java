@@ -5,40 +5,36 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import chris.eccleston.footballinfo.activities.BaseActivity;
-import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.R;
-import chris.eccleston.footballinfo.types.Team;
-import chris.eccleston.footballinfo.activities.TeamActivity;
+import chris.eccleston.footballinfo.activities.BaseActivity;
 import chris.eccleston.footballinfo.adapters.TeamRosterAdapter;
 import chris.eccleston.footballinfo.tasks.UpdateRoster;
+import chris.eccleston.footballinfo.types.Player;
+import chris.eccleston.footballinfo.types.Team;
 
 public class FragmentTeamRoster extends BaseFragment {
     public static SwipeRefreshLayout refreshRosterList;
     public static TeamRosterAdapter ca;
     public static LinearLayoutManager llm;
+    public static List<Player> mRoster = new ArrayList<Player>();
     protected static Team mTeam;
-    public static List<Player> roster = new ArrayList<Player>();
 
-    public FragmentTeamRoster() {}
+    public FragmentTeamRoster() {
+    }
 
     /**
      * Returns a new instance of this fragment.
      */
-    public FragmentTeamRoster newInstance(Team team) {
+    public FragmentTeamRoster newInstance(Team team, List<Player> roster) {
         FragmentTeamRoster fragment = new FragmentTeamRoster();
         mTeam = team;
-        roster = Player.find(Player.class, "team_id = ?", String.valueOf(mTeam.getTeamId()));
+        mRoster = roster;
         return fragment;
     }
 
@@ -50,7 +46,7 @@ public class FragmentTeamRoster extends BaseFragment {
         recList.setHasFixedSize(true);
         llm = new LinearLayoutManager(rootView.getContext());
         recList.setLayoutManager(llm);
-        ca = new TeamRosterAdapter(roster, this.getActivity(), mTeam);
+        ca = new TeamRosterAdapter(mRoster, this.getActivity(), mTeam);
         recList.setAdapter(ca);
 
         refreshRosterList.setColorSchemeColors(mTeam.getColorPrimary(), mTeam.getColorAccent());

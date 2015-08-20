@@ -5,24 +5,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.List;
 import java.util.Locale;
 
 import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.fragments.FragmentTeamInfo;
-import chris.eccleston.footballinfo.fragments.FragmentTeamNews;
 import chris.eccleston.footballinfo.fragments.FragmentTeamRoster;
 import chris.eccleston.footballinfo.fragments.FragmentTeamSchedule;
+import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
 
 public class MyFragmentAdapter extends FragmentPagerAdapter {
 
-    private Context mContext;
     protected Team mTeam;
+    protected List<Player> mRoster;
+    private Context mContext;
 
-    public MyFragmentAdapter(FragmentManager fm, Context c, Team team) {
+    public MyFragmentAdapter(FragmentManager fm, Context c, Team team, List<Player> roster) {
         super(fm);
         mContext = c;
         mTeam = team;
+        mRoster = roster;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
                 return mFragmentTeamSchedule.newInstance(mTeam);
             case 1:
                 FragmentTeamRoster mFragmentTeamRoster = new FragmentTeamRoster();
-                return mFragmentTeamRoster.newInstance(mTeam);
+                return mFragmentTeamRoster.newInstance(mTeam, mRoster);
             case 2:
                 FragmentTeamInfo mFragmentTeamInfo = new FragmentTeamInfo();
                 return mFragmentTeamInfo.newInstance(mTeam);

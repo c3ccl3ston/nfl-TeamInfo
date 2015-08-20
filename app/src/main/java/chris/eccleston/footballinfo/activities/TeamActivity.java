@@ -1,6 +1,7 @@
 package chris.eccleston.footballinfo.activities;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,12 +10,15 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -27,7 +31,7 @@ import chris.eccleston.footballinfo.tasks.GetPlayerInfo;
 import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
 
-public class TeamActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class TeamActivity extends BaseActivity implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     public Team mTeam;
 
@@ -50,6 +54,8 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
     MyFragmentAdapter mfa;
 
+    Context mContext;
+
     int current_tab = 1;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -60,6 +66,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         mTeam = Team.find(Team.class, "team_id = ?", String.valueOf(intent.getIntExtra(TEAM_ID, 0))).get(0);
         mRoster = Player.find(Player.class, "team_id = ?", String.valueOf(mTeam.getTeamId()));
 
+        sortRosterByName(mRoster);
         mTeamLocation = mTeam.getLocation();
         mTeamName = mTeam.getTeamName();
         mColorPrimary = mTeam.getColorPrimary();
@@ -71,6 +78,8 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
         setContentView(R.layout.activity_team);
 
+        mContext = this;
+
         ButterKnife.inject(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setPopupTheme(popup_theme);
@@ -78,7 +87,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         setSupportActionBar(mToolbar);
 
         // Initialize the ViewPager and set an adapter
-        mfa = new MyFragmentAdapter(getSupportFragmentManager(), this, mTeam);
+        mfa = new MyFragmentAdapter(getSupportFragmentManager(), this, mTeam, mRoster);
         mPager.setAdapter(mfa);
 
         mTabs.setupWithViewPager(mPager);
@@ -97,6 +106,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
         mTabs.setTabTextColors(mColorAccent, mColorAccent);
         mTabs.setBackgroundColor(mColorPrimary);
+        mTabs.setOnTabSelectedListener(this);
         mToolbar.setTitleTextColor(mColorAccent);
         mToolbar.setSubtitleTextColor(mColorAccent);
         getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, mColorAccent));
@@ -195,21 +205,25 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.sort:
-                handleMenuCheckboxes(mOptionsMenu);
-                return super.onOptionsItemSelected(item);
-            case R.id.roster_sort_by_name:
-                sortRosterByName(mRoster);
-                break;
-            case R.id.roster_sort_by_number:
-                sortRosterByNumber(mRoster);
-                break;
-            case R.id.roster_sort_by_position:
-                sortRosterByPosition(mRoster);
-                break;
-            default:
-                sortRosterByName(mRoster);
+        if (item.isChecked() || item.getItemId() != R.id.sort) {
+            Collections.reverse(mRoster);
+        } else {
+            switch (id) {
+                case R.id.sort:
+                    handleMenuCheckboxes(mOptionsMenu);
+                    return super.onOptionsItemSelected(item);
+                case R.id.roster_sort_by_name:
+                    sortRosterByName(mRoster);
+                    break;
+                case R.id.roster_sort_by_number:
+                    sortRosterByNumber(mRoster);
+                    break;
+                case R.id.roster_sort_by_position:
+                    sortRosterByPosition(mRoster);
+                    break;
+                default:
+                    sortRosterByName(mRoster);
+            }
         }
         FragmentTeamRoster.ca.updateList(mRoster);
         return super.onOptionsItemSelected(item);
@@ -226,5 +240,34 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        if (tab.getText().equals("SCHEDULE")) {
+            mPager.setCurrentItem(0);
+        }
+        if (tab.getText().equals("ROSTER")) {
+            mPager.setCurrentItem(1);
+        }
+        if (tab.getText().equals("INFO")) {
+            mPager.setCurrentItem(2);
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        View view = mPager.getFocusedChild();
+        if (mPager.getCurrentItem() == 0 || mPager.getCurrentItem() == 1) {
+            ((RecyclerView) view.findViewById(R.id.cardList)).scrollToPosition(0);
+        }
+        if (mPager.getCurrentItem() == 2) {
+            view.findViewById(R.id.webScroll).scrollTo(0, 0);
+        }
     }
 }

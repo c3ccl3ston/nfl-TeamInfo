@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import chris.eccleston.footballinfo.R;
@@ -24,11 +22,6 @@ public class TeamRosterAdapter extends RecyclerView.Adapter<TeamRosterAdapter.Te
 
     public TeamRosterAdapter(List<Player> rosterList, Context context, Team team) {
         mRosterList = rosterList;
-        Collections.sort(mRosterList, new Comparator<Player>() {
-            public int compare(Player s1, Player s2) {
-                return s1.getLastName().compareToIgnoreCase(s2.getLastName());
-            }
-        });
         mContext = context;
         mTeam = team;
     }
