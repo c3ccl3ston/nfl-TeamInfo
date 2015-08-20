@@ -167,7 +167,8 @@
             android:fontFamily="@string/sansLight"
             android:paddingLeft="@dimen/number_location"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="?attr/colorAccent" />
+            android:textColor="?attr/colorAccent"
+            android:textStyle="bold" />
 
         <Space
             android:id="@+id/second_space"

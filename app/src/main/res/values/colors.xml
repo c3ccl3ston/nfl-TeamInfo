@@ -11,7 +11,7 @@
 
     <color name="atl_primary_color">#FFBD0D18</color>
     <color name="atl_primary_color_dark">#FF980a13</color>
-    <color name="atl_color_accent">#FF000000</color>
+    <color name="atl_color_accent">#FFFFFFFF</color>
 
     <color name="bal_primary_color">#FF1E1656</color>
     <color name="bal_primary_color_dark">#FF191246</color>
@@ -23,7 +23,7 @@
 
     <color name="car_primary_color">#FF0099D7</color>
     <color name="car_primary_color_dark">#FF007db0</color>
-    <color name="car_color_accent">#FF000000</color>
+    <color name="car_color_accent">#FFFFFFFF</color>
 
     <color name="chi_primary_color">#FF052b54</color>
     <color name="chi_primary_color_dark">#FF042141</color>
