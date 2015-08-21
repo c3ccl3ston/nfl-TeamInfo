@@ -31,7 +31,7 @@ public class FragmentTeamRoster extends BaseFragment {
     /**
      * Returns a new instance of this fragment.
      */
-    public FragmentTeamRoster newInstance(Team team, List<Player> roster) {
+    public static FragmentTeamRoster newInstance(Team team, List<Player> roster) {
         FragmentTeamRoster fragment = new FragmentTeamRoster();
         mTeam = team;
         mRoster = roster;

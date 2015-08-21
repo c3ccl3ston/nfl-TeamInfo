@@ -7,12 +7,12 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application xmlns:tools="http://schemas.android.com/tools"
-        tools:replace="android:icon"
         android:name="com.orm.SugarApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/nfl_theme">
+        android:theme="@style/nfl_theme"
+        tools:replace="android:icon">
 
         <meta-data
             android:name="DATABASE"
@@ -38,6 +38,14 @@
         </activity>
         <activity
             android:name=".activities.TeamActivity"
+            android:label="@string/title_activity_team"
+            android:parentActivityName=".activities.TeamsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.TeamsActivity" />
+        </activity>
+        <activity
+            android:name=".activities.WeeklyScheduleActivity"
             android:label="@string/title_activity_team"
             android:parentActivityName=".activities.TeamsActivity">
             <meta-data

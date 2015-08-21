@@ -135,11 +135,7 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
 
                         String home_game = scheduleWeek.select("li[class=game-status]").text();
 
-                        if (home_game.equals("@")) {
-                            isHome = false;
-                        } else {
-                            isHome = true;
-                        }
+                        isHome = !home_game.equals("@");
 
                         scores = scheduleWeek.select("li[class=score]").text();
 
@@ -194,7 +190,6 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                                 schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), time);
                             }
                             schedule_week.save();
-                            System.out.println(schedule_week.toString());
                         }
                     }
 
@@ -202,8 +197,6 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                     mTeam.setLosses(num_losses);
                     mTeam.setTies(num_ties);
                     mTeam.save();
-
-
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -289,9 +282,6 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

@@ -9,31 +9,37 @@
         <!--android:icon="@android:drawable/ic_menu_today"-->
         <!--app:showAsAction="ifRoom" />-->
     <item
+        android:id="@+id/weekly_schedule"
+        android:icon="@android:drawable/ic_menu_month"
+        android:orderInCategory="1"
+        android:title="Weekly Schedule"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/sort_options"
+        android:icon="@drawable/ic_menu_sort_by_size"
         android:orderInCategory="2"
         android:title="@string/sort_options"
-        android:icon="@drawable/ic_menu_sort_by_size"
         app:showAsAction="always">
         <menu>
             <item
                 android:id="@+id/teams_sort_by_location"
-                android:orderInCategory="1"
                 android:checkable="true"
+                android:orderInCategory="1"
                 android:title="@string/teams_sort_by_location" />
             <item
                 android:id="@+id/teams_sort_by_name"
-                android:orderInCategory="2"
                 android:checkable="true"
+                android:orderInCategory="2"
                 android:title="@string/teams_sort_by_name" />
             <item
                 android:id="@+id/teams_sort_by_record"
-                android:orderInCategory="3"
                 android:checkable="true"
+                android:orderInCategory="3"
                 android:title="@string/teams_sort_by_record" />
             <item
                 android:id="@+id/teams_sort_by_division"
-                android:orderInCategory="4"
                 android:checkable="true"
+                android:orderInCategory="4"
                 android:title="@string/teams_sort_by_division" />
         </menu>
     </item>

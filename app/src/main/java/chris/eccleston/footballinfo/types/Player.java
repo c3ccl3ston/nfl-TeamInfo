@@ -71,17 +71,6 @@ public class Player extends SugarRecord<Player> implements Comparator<Player> {
         return this.college;
     }
 
-//    public String getFullName() {
-//        if (lastNameFirst) {
-//            return lastName + ", " + firstName;
-//        }
-//        return firstName + " " + lastName;
-//    }
-
-//    public void setLastNameFirst(boolean type) {
-//        this.lastNameFirst = type;
-//    }
-
     public int getPlayerId() {
         return this.playerId;
     }

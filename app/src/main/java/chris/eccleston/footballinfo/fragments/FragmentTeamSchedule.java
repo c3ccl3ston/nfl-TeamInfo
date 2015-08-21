@@ -29,7 +29,7 @@ public class FragmentTeamSchedule extends BaseFragment {
     /**
      * Returns a new instance of this fragment.
      */
-    public FragmentTeamSchedule newInstance(Team team) {
+    public static FragmentTeamSchedule newInstance(Team team) {
         FragmentTeamSchedule fragment = new FragmentTeamSchedule();
         mTeam = team;
         schedule = Schedule.find(Schedule.class, "team_id = ?", String.valueOf(mTeam.getTeamId()));

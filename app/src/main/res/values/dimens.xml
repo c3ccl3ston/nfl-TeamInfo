@@ -27,4 +27,9 @@
     <!-- Action Bar auto-hide-on-scroll behavior parameters -->
     <dimen name="action_bar_auto_hide_min_y">152dp</dimen>
     <dimen name="action_bar_auto_hide_sensivity">48dp</dimen>
+
+    <dimen name="layout_weekly_schedule_scores">40sp</dimen>
+    <dimen name="layout_weekly_schedule_dash">30sp</dimen>
+    <dimen name="layout_weekly_schedule_time">35sp</dimen>
+    <dimen name="layout_weekly_schedule_time_pm">20sp</dimen>
 </resources>

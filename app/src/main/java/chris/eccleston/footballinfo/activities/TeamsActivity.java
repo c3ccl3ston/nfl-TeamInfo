@@ -2,6 +2,7 @@ package chris.eccleston.footballinfo.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
@@ -30,6 +31,7 @@ import chris.eccleston.footballinfo.adapters.TeamAdapter;
 import chris.eccleston.footballinfo.tasks.UpdateRoster;
 import chris.eccleston.footballinfo.tasks.UpdateSchedule;
 import chris.eccleston.footballinfo.tasks.UpdateTeamInfo;
+import chris.eccleston.footballinfo.tasks.UpdateWeeklySchedules;
 import chris.eccleston.footballinfo.types.Team;
 
 public class TeamsActivity extends BaseActivity {
@@ -93,6 +95,7 @@ public class TeamsActivity extends BaseActivity {
         teamsList.setLayoutManager(new LinearLayoutManager(this));
 
         if (initial_load) {
+            initWeeklySchedules();
             initTeamsDB();
         }
 
@@ -100,19 +103,26 @@ public class TeamsActivity extends BaseActivity {
         refreshTeamsList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshTeamsList.setRefreshing(true);
-                UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
-                updateScheduleTask.setSingleTeam(false);
-                updateScheduleTask.setTeamAdapter(teamAdapter);
-                Team[] teams_array = new Team[32];
-                for (int i = 0; i < teams.size(); i++) {
-                    teams_array[i] = teams.get(i);
-                }
+//                refreshTeamsList.setRefreshing(true);
+//                UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
+//                updateScheduleTask.setSingleTeam(false);
+//                updateScheduleTask.setTeamAdapter(teamAdapter);
+//                Team[] teams_array = new Team[32];
+//                for (int i = 0; i < teams.size(); i++) {
+//                    teams_array[i] = teams.get(i);
+//                }
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//                    updateScheduleTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, teams_array);
+//                } else {
+//                    updateScheduleTask.execute(teams_array);
+//                }
 
+                UpdateWeeklySchedules task = new UpdateWeeklySchedules(getApplicationContext());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    updateScheduleTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, teams_array);
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
-                    updateScheduleTask.execute(teams_array);
+                    task.execute();
                 }
             }
         });
@@ -122,7 +132,8 @@ public class TeamsActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_teams, menu);
         mOptionsMenu = menu;
-        mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, getResources().getColor(R.color.nfl_color_accent)));
+//        mOptionsMenu.getItem(0).setIcon(colorizeIcon(android.R.drawable.ic_menu_month, getResources().getColor(R.color.nfl_color_accent)));
+        mOptionsMenu.getItem(1).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, getResources().getColor(R.color.nfl_color_accent)));
         handleMenuCheckboxes(mOptionsMenu);
         return true;
     }
@@ -130,7 +141,8 @@ public class TeamsActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
-        mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, getResources().getColor(R.color.nfl_color_accent)));
+//        mOptionsMenu.getItem(0).setIcon(colorizeIcon(android.R.drawable.ic_menu_month, getResources().getColor(R.color.nfl_color_accent)));
+        mOptionsMenu.getItem(1).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, getResources().getColor(R.color.nfl_color_accent)));
         handleMenuCheckboxes(mOptionsMenu);
         return super.onPrepareOptionsMenu(mOptionsMenu);
     }
@@ -143,6 +155,14 @@ public class TeamsActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if (id == R.id.weekly_schedule) {
+            Intent intent = new Intent(TeamsActivity.APPLICATION_CONTEXT, WeeklyScheduleActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra("teamID", teamID);
+            m.startActivity(intent);
+        }
+
         if (id == R.id.sort_options) {
             handleMenuCheckboxes(mOptionsMenu);
             return super.onOptionsItemSelected(item);
@@ -284,6 +304,16 @@ public class TeamsActivity extends BaseActivity {
     }
 
     private void initTeamsDB() {
+//        List<Team> teams = new ArrayList<>();
+//        try {
+//            teams = Team.listAll(Team.class);
+//        } catch (Exception e) {}
+//
+//        System.out.println("Teams size: " + teams.size());
+//        if(teams.size() >= 32) {
+//            return;
+//        }
+
         String[] team_locations = getResources().getStringArray(R.array.team_locations);
         String[] team_names = getResources().getStringArray(R.array.team_names);
         String[] team_conference = getResources().getStringArray(R.array.team_conferences);
@@ -317,6 +347,15 @@ public class TeamsActivity extends BaseActivity {
         initPlayersDB();
         initSchedulesDB();
         initTeamInfoFiles();
+    }
+
+    private void initWeeklySchedules() {
+        UpdateWeeklySchedules updateRosterTask = new UpdateWeeklySchedules(TeamsActivity.this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            updateRosterTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            updateRosterTask.execute();
+        }
     }
 
     private void initPlayersDB() {

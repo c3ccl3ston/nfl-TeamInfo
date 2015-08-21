@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import chris.eccleston.footballinfo.DepthPageTransformer;
 import chris.eccleston.footballinfo.R;
-import chris.eccleston.footballinfo.adapters.MyFragmentAdapter;
+import chris.eccleston.footballinfo.adapters.TeamFragmentAdapter;
 import chris.eccleston.footballinfo.fragments.FragmentTeamRoster;
 import chris.eccleston.footballinfo.tasks.GetPlayerInfo;
 import chris.eccleston.footballinfo.types.Player;
@@ -50,7 +50,9 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
     boolean mPlayerCardShowing = false;
 
-    MyFragmentAdapter mfa;
+    int mTabPosition = -1;
+
+    TeamFragmentAdapter mfa;
 
     Context mContext;
 
@@ -78,6 +80,10 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
         mContext = this;
 
+        if (savedInstanceState != null) {
+            mTabPosition = savedInstanceState.getInt("TAB");
+        }
+
         ButterKnife.inject(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setPopupTheme(popup_theme);
@@ -86,13 +92,6 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
         getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, mColorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // Initialize the ViewPager and set an adapter
-        mfa = new MyFragmentAdapter(getSupportFragmentManager(), this, mTeam, mRoster);
-        mPager.setAdapter(mfa);
-
-        mTabs.setupWithViewPager(mPager);
-        mPager.addOnPageChangeListener(this);
 
         setTitle(mTeamLocation + " " + mTeamName);
         updateSubtitle(mTeam);
@@ -115,6 +114,23 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        // Initialize the ViewPager and set an adapter
+        mfa = new TeamFragmentAdapter(getSupportFragmentManager(), this, mTeam, mRoster);
+        mPager.setAdapter(mfa);
+
+        mTabs.setupWithViewPager(mPager);
+        mTabs.setTabMode(TabLayout.MODE_FIXED);
+        mPager.addOnPageChangeListener(this);
+
+        TeamActivity prevActivity = (TeamActivity) getLastCustomNonConfigurationInstance();
+        if (prevActivity != null) {
+            mPager.setCurrentItem(prevActivity.mTabPosition);
+        }
+    }
+
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         SORT_ORDER = savedInstanceState.getInt("TEAMS_SORT_ORDER");
@@ -132,6 +148,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         }
         super.onSaveInstanceState(outState);
         outState.putInt("TEAMS_SORT_ORDER", SORT_ORDER);
+        outState.putInt("TAB", mTabs.getSelectedTabPosition());
         if (GetPlayerInfo.dialog != null) {
             if (GetPlayerInfo.dialog.isShowing()) {
                 GetPlayerInfo.dialog.dismiss();
@@ -165,6 +182,11 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
                 sort_item_number.setChecked(false);
                 break;
         }
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return this;
     }
 
     @Override

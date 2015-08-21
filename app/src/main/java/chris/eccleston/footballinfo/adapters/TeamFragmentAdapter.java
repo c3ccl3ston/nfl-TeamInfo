@@ -15,13 +15,13 @@ import chris.eccleston.footballinfo.fragments.FragmentTeamSchedule;
 import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
 
-public class MyFragmentAdapter extends FragmentPagerAdapter {
+public class TeamFragmentAdapter extends FragmentPagerAdapter {
 
     protected Team mTeam;
     protected List<Player> mRoster;
     private Context mContext;
 
-    public MyFragmentAdapter(FragmentManager fm, Context c, Team team, List<Player> roster) {
+    public TeamFragmentAdapter(FragmentManager fm, Context c, Team team, List<Player> roster) {
         super(fm);
         mContext = c;
         mTeam = team;
@@ -32,14 +32,11 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FragmentTeamSchedule mFragmentTeamSchedule = new FragmentTeamSchedule();
-                return mFragmentTeamSchedule.newInstance(mTeam);
+                return FragmentTeamSchedule.newInstance(mTeam);
             case 1:
-                FragmentTeamRoster mFragmentTeamRoster = new FragmentTeamRoster();
-                return mFragmentTeamRoster.newInstance(mTeam, mRoster);
+                return FragmentTeamRoster.newInstance(mTeam, mRoster);
             case 2:
-                FragmentTeamInfo mFragmentTeamInfo = new FragmentTeamInfo();
-                return mFragmentTeamInfo.newInstance(mTeam);
+                return FragmentTeamInfo.newInstance(mTeam);
             default:
                 return null;
         }

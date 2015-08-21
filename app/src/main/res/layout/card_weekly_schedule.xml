@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rosterCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:foreground="?android:selectableItemBackground"
+    android:orientation="vertical"
+    android:stateListAnimator="@anim/card_elevation"
+    card_view:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:id="@+id/weekly_teams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/weekly_away_team"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="@string/sansLight"
+                android:gravity="center_horizontal"
+                android:text="Ravens"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/weekly_home_team"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="false"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:fontFamily="@string/sansLight"
+                android:gravity="bottom|center_horizontal"
+                android:text="New England"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/weekly_game_at_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentTop="false"
+                android:layout_centerInParent="true"
+                android:fontFamily="sans-serif-thin"
+                android:text="at" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/weekly_away_logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/weekly_teams"
+            android:layout_marginLeft="5dp"
+            android:contentDescription="@string/logo_description"
+            android:src="@drawable/bal_logo" />
+
+        <ImageView
+            android:id="@+id/weekly_home_logo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/weekly_teams"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:contentDescription="@string/logo_description"
+            android:src="@drawable/arz_logo" />
+
+        <TextView
+            android:id="@+id/weekly_game_was_ot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/weekly_home_score"
+            android:layout_toRightOf="@+id/weekly_away_score"
+            android:fontFamily="@string/sansLight"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/weekly_game_has_scores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/weekly_home_score"
+            android:layout_toRightOf="@+id/weekly_away_score"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/layout_weekly_schedule_dash"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/weekly_away_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/weekly_away_logo"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/layout_weekly_schedule_scores"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/weekly_home_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/weekly_home_logo"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center_vertical|right"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/layout_weekly_schedule_scores"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rl_time_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/weekly_away_logo"
+            android:layout_alignTop="@+id/weekly_away_logo"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                android:id="@+id/weekly_game_time"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentRight="false"
+                android:layout_alignParentTop="false"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:text="1:00"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/layout_weekly_schedule_time" />
+
+            <TextView
+                android:id="@+id/weekly_game_time_pm"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_toRightOf="@+id/weekly_game_time"
+                android:fontFamily="sans-serif-thin"
+                android:gravity="center"
+                android:text="PM"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/layout_weekly_schedule_time_pm" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>
