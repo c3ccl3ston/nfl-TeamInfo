@@ -3,20 +3,9 @@ package chris.eccleston.footballinfo.fragments;
 import android.app.Activity;
 import android.content.res.TypedArray;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 
 import chris.eccleston.footballinfo.R;
-import chris.eccleston.footballinfo.activities.TeamActivity;
 
 /**
  * Created by Chris on 1/27/2015.
@@ -24,7 +13,7 @@ import chris.eccleston.footballinfo.activities.TeamActivity;
 public class BaseFragment extends Fragment {
 
     protected int getScreenHeight() {
-        Activity activity = (AppCompatActivity) this.getActivity();
+        Activity activity = this.getActivity();
         if (activity == null) {
             return 0;
         }

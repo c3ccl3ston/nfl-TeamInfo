@@ -1,7 +1,5 @@
 package chris.eccleston.footballinfo.types;
 
-import android.content.Context;
-
 import com.orm.SugarRecord;
 
 /**

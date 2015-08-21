@@ -4,27 +4,16 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.List;
 import java.util.Locale;
 
-import chris.eccleston.footballinfo.activities.TeamActivity;
-import chris.eccleston.footballinfo.activities.TeamsActivity;
 import chris.eccleston.footballinfo.fragments.FragmentTeamInfo;
-import chris.eccleston.footballinfo.fragments.FragmentTeamRoster;
-import chris.eccleston.footballinfo.fragments.FragmentTeamSchedule;
-import chris.eccleston.footballinfo.types.Schedule;
 import chris.eccleston.footballinfo.types.Team;
 
 public class UpdateTeamInfo extends AsyncTask<Team, Void, Void> {
@@ -113,9 +102,6 @@ public class UpdateTeamInfo extends AsyncTask<Team, Void, Void> {
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

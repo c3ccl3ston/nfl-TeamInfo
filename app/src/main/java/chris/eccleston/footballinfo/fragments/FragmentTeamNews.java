@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import chris.eccleston.footballinfo.R;
-import chris.eccleston.footballinfo.types.Schedule;
-import chris.eccleston.footballinfo.types.Team;
 import chris.eccleston.footballinfo.adapters.TeamScheduleAdapter;
+import chris.eccleston.footballinfo.types.Schedule;
 
 public class FragmentTeamNews extends BaseFragment {
     public List<Schedule> teams = new ArrayList<Schedule>();
+
+    public FragmentTeamNews() {
+    }
 
     /**
      * Returns a new instance of this fragment.
@@ -24,9 +26,6 @@ public class FragmentTeamNews extends BaseFragment {
     public static FragmentTeamNews newInstance() {
         FragmentTeamNews fragment = new FragmentTeamNews();
         return fragment;
-    }
-
-    public FragmentTeamNews() {
     }
 
     @Override

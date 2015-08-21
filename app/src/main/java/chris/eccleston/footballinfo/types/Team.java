@@ -3,8 +3,6 @@ package chris.eccleston.footballinfo.types;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-import java.io.Serializable;
-
 public class Team extends SugarRecord<Team> {
     @Ignore
     protected static final long serialVersionUID = 1L;
@@ -25,10 +23,10 @@ public class Team extends SugarRecord<Team> {
     public String conference;
     public String division;
     public int themeId;
-    private int teamPopupId;
     public int wins;
     public int losses;
     public int ties;
+    private int teamPopupId;
 
     public Team() {}
 

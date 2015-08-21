@@ -48,15 +48,11 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     @InjectView(R.id.my_pager)
     ViewPager mPager;
 
-    boolean mPlayerCardShowing = false;
-
     int mTabPosition = -1;
 
     TeamFragmentAdapter mfa;
 
     Context mContext;
-
-    int current_tab = 1;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -89,7 +85,10 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         mToolbar.setPopupTheme(popup_theme);
         setTheme(theme);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
+        try {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
+        } catch (NullPointerException npe) {
+        }
         getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, mColorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -193,13 +192,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     public boolean onCreateOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_team_roster, mOptionsMenu);
-
-        if (mPager.getCurrentItem() != 0) {
-            menu.findItem(R.id.sort).setVisible(false);
-        } else {
-            menu.findItem(R.id.sort).setVisible(true);
-        }
-
+        menu.findItem(R.id.sort).setVisible(mPager.getCurrentItem() != 0 ? false : true);
         mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, mColorAccent));
         handleMenuCheckboxes(mOptionsMenu);
         return true;
@@ -209,7 +202,6 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     public boolean onPrepareOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, mColorAccent));
-
         handleMenuCheckboxes(mOptionsMenu);
         return super.onPrepareOptionsMenu(mOptionsMenu);
     }
