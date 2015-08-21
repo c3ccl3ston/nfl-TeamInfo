@@ -1,5 +1,6 @@
 package chris.eccleston.footballinfo.adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,10 +16,12 @@ import chris.eccleston.footballinfo.types.Game;
 public class WeeklyScheduleFragmentAdapter extends FragmentPagerAdapter {
 
     protected List<List<Game>> mWeeklySchedules;
+    protected Context mContext;
 
-    public WeeklyScheduleFragmentAdapter(FragmentManager fm, List<List<Game>> weeklySchedules) {
+    public WeeklyScheduleFragmentAdapter(Context context, FragmentManager fm, List<List<Game>> weeklySchedules) {
         super(fm);
         mWeeklySchedules = weeklySchedules;
+        mContext = context;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class WeeklyScheduleFragmentAdapter extends FragmentPagerAdapter {
             case 15:
             case 16:
                 FragmentWeeklySchedule mFWS = new FragmentWeeklySchedule();
-                return mFWS.newInstance(mWeeklySchedules.get(position));
+                return mFWS.newInstance(mContext, mWeeklySchedules.get(position));
             default:
                 return null;
         }

@@ -99,7 +99,7 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
             mAllGames.add(mWeeklyGames);
         }
         // Initialize the ViewPager and set an adapter
-        mFragmentAdapter = new WeeklyScheduleFragmentAdapter(getSupportFragmentManager(), mAllGames);
+        mFragmentAdapter = new WeeklyScheduleFragmentAdapter(mContext, getSupportFragmentManager(), mAllGames);
         mPager.setAdapter(mFragmentAdapter);
 
         mTabs.setupWithViewPager(mPager);

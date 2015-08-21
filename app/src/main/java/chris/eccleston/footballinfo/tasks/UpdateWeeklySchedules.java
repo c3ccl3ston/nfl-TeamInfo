@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import chris.eccleston.footballinfo.fragments.FragmentWeeklySchedule;
 import chris.eccleston.footballinfo.types.Game;
 
 /**
@@ -16,9 +17,14 @@ import chris.eccleston.footballinfo.types.Game;
 public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
 
     Context mContext;
+    FragmentWeeklySchedule mFragmentWeeklySchedule;
 
     public UpdateWeeklySchedules(Context context) {
         mContext = context;
+    }
+
+    public void setFragmentWeeklySchedule(FragmentWeeklySchedule fragment) {
+        mFragmentWeeklySchedule = fragment;
     }
 
     @Override
@@ -33,18 +39,18 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected Void doInBackground(Void... params) {
-        String awayTeam = "";
-        String homeTeam = "";
-        String gameTime = "";
-        String awayScore = "";
-        String homeScore = "";
-        String pm = "";
-        boolean wasOvertime;
+        String awayTeam;
+        String homeTeam;
+        String gameTime;
+        String awayScore;
+        String homeScore;
+        String pm;
+        boolean wasOvertime = false;
 
         int dateId = 1;
+        int gameID = 1;
         try {
             for (int weekNum = 1; weekNum <= 17; weekNum++) {
-                int gameID = 1;
                 String url = "http://www.nfl.com/schedules/2015/REG" + weekNum;
                 Document doc = Jsoup.connect(url).get();
                 Elements scheduleTable = doc.select("ul[class~=schedules-table]").select("li");
@@ -60,32 +66,22 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
                         homeScore = item.select("span[class~=team-score home]").text();
                         gameTime = item.select("span[class~=time]").text();
                         pm = item.select("span[class~=pm]").text();
-                        Game new_game = new Game(gameID++ * weekNum, date, weekNum, awayTeam, homeTeam, gameTime, pm, "", "", false);
-                        new_game.save();
+
+                        Game existing_game = null;
+                        try {
+                            existing_game = Game.find(Game.class, "game_id = ?", String.valueOf(gameID)).get(0);
+                        } catch (Exception e) {
+                        }
+
+                        if (existing_game != null) {
+                            existing_game.updateGame(awayScore, homeScore, wasOvertime);
+                        } else {
+                            Game new_game = new Game(gameID, date, weekNum, awayTeam, homeTeam, gameTime, pm, awayScore, homeScore, false);
+                            new_game.save();
+                            gameID++;
+                        }
                     }
                 }
-
-//                for (Element nfl_schedule_week : week_schedule) {
-//                    awayTeam = nfl_schedule_week.select("span[class~=team-name away]").text();
-//                    awayScore = nfl_schedule_week.select("span[class~=team-score away]").text();
-//                    homeTeam = nfl_schedule_week.select("span[class~=team-name home]").text();
-//                    homeScore = nfl_schedule_week.select("span[class~=team-score home]").text();
-//                    gameTime = nfl_schedule_week.select("span[class~=time]").text();
-//                    pm = nfl_schedule_week.select("span[class~=pm]").text();
-
-//                    Game existing_game = null;
-//                    try {
-//                        existing_game = Game.find(Game.class, "game_id = ?", String.valueOf(gameID)).get(0);
-//                    } catch (Exception e) {
-//                    }
-//
-//                    if (existing_game != null) {
-//
-//                    } else {
-//                        Game new_game = new Game(gameID++*weekNum, weekNum, awayTeam, homeTeam, gameTime, pm, "", "", false);
-//                        new_game.save();
-//                    }
-//                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -96,6 +92,8 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-//        TeamsActivity.refreshTeamsList.setRefreshing(false);
+        if (mFragmentWeeklySchedule != null) {
+            mFragmentWeeklySchedule.stopRefreshing();
+        }
     }
 }

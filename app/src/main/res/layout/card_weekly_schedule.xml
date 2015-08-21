@@ -151,38 +151,58 @@
             android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/rl_time_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/weekly_away_logo"
             android:layout_alignTop="@+id/weekly_away_logo"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical|center_horizontal">
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:id="@+id/weekly_game_time"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="false"
                 android:layout_alignParentLeft="false"
                 android:layout_alignParentRight="false"
                 android:layout_alignParentTop="false"
+                android:layout_centerVertical="true"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
                 android:text="1:00"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/layout_weekly_schedule_time" />
+                android:textSize="35dp" />
 
-            <TextView
-                android:id="@+id/weekly_game_time_pm"
+            <RelativeLayout
+                android:id="@+id/rl_time_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/weekly_game_time"
-                android:fontFamily="sans-serif-thin"
-                android:gravity="center"
-                android:text="PM"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/layout_weekly_schedule_time_pm" />
+                android:gravity="center_vertical|center_horizontal">
+
+                <TextView
+                    android:id="@+id/weekly_game_time_pm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center"
+                    android:text="PM"
+                    android:textColor="@color/gray"
+                    android:textSize="11dp" />
+
+                <TextView
+                    android:id="@+id/weekly_game_time_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/weekly_game_time_pm"
+                    android:layout_marginTop="-2dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center"
+                    android:text="ET"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp" />
+            </RelativeLayout>
         </RelativeLayout>
 
     </RelativeLayout>

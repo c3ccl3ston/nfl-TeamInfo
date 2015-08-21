@@ -102,26 +102,19 @@ public class TeamsActivity extends BaseActivity {
         refreshTeamsList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                refreshTeamsList.setRefreshing(true);
-//                UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
-//                updateScheduleTask.setSingleTeam(false);
-//                updateScheduleTask.setTeamAdapter(teamAdapter);
-//                Team[] teams_array = new Team[32];
-//                for (int i = 0; i < teams.size(); i++) {
-//                    teams_array[i] = teams.get(i);
-//                }
-//
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-//                    updateScheduleTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, teams_array);
-//                } else {
-//                    updateScheduleTask.execute(teams_array);
-//                }
+                refreshTeamsList.setRefreshing(true);
+                UpdateSchedule updateScheduleTask = new UpdateSchedule(getApplicationContext());
+                updateScheduleTask.setSingleTeam(false);
+                updateScheduleTask.setTeamAdapter(teamAdapter);
+                Team[] teams_array = new Team[32];
+                for (int i = 0; i < teams.size(); i++) {
+                    teams_array[i] = teams.get(i);
+                }
 
-                UpdateWeeklySchedules task = new UpdateWeeklySchedules(getApplicationContext());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    updateScheduleTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, teams_array);
                 } else {
-                    task.execute();
+                    updateScheduleTask.execute(teams_array);
                 }
             }
         });

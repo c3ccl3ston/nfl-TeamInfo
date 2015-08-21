@@ -33,6 +33,13 @@ public class Game extends SugarRecord<Game> {
         this.wasOvertime = wasOvertime;
     }
 
+    public void updateGame(String awayScore, String homeScore, boolean wasOvertime) {
+        this.awayScore = awayScore;
+        this.homeScore = homeScore;
+        this.wasOvertime = wasOvertime;
+        this.save();
+    }
+
     public String getGameHeader() {
         return gameHeader;
     }

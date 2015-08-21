@@ -23,7 +23,6 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
 
     protected List<Game> mWeekSchedule;
     protected Context mContext;
-    protected Team mTeam;
 
     public WeeklyScheduleAdapter(Context context, List<Game> weekSchedule) {
         mContext = context;
