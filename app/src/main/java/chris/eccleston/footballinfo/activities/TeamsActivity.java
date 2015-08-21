@@ -94,10 +94,6 @@ public class TeamsActivity extends BaseActivity {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         teamsList.setLayoutManager(new LinearLayoutManager(this));
 
-        if (initial_load) {
-            initTeamsDB();
-        }
-
         refreshTeamsList.setColorSchemeColors(getResources().getColor(R.color.nfl_primary_color), getResources().getColor(R.color.nfl_color_accent));
         refreshTeamsList.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -118,6 +114,14 @@ public class TeamsActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (initial_load) {
+            initTeamsDB();
+        }
     }
 
     @Override
@@ -312,17 +316,18 @@ public class TeamsActivity extends BaseActivity {
             ci.save();
         }
 
+        teams = Team.listAll(Team.class);
+
+        teamAdapter = new TeamAdapter(teams, getApplicationContext());
+        teamsList.setAdapter(teamAdapter);
+        teamAdapter.notifyDataSetChanged();
+
         team_logos.recycle();
         team_color_primary.recycle();
         team_color_primary_dark.recycle();
         team_color_accent.recycle();
         team_themes.recycle();
         team_popup_themes.recycle();
-
-        teams = Team.listAll(Team.class);
-
-        teamAdapter = new TeamAdapter(teams, getApplicationContext());
-        teamsList.setAdapter(teamAdapter);
 
         initial_load = false;
         initPlayersDB();

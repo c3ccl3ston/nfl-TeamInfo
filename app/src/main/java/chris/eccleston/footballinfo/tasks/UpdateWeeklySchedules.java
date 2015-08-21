@@ -59,6 +59,7 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
                 for (Element item : scheduleTable) {
                     if (item.hasClass("schedules-list-date")) {
                         date = dateId++ + " " + item.select("span > span").text();
+                        date = date.substring(0, date.lastIndexOf(' ')) + " " + Integer.parseInt(date.substring(date.lastIndexOf(' ') + 1));
                     } else {
                         awayTeam = item.select("span[class~=team-name away]").text();
                         awayScore = item.select("span[class~=team-score away]").text();
