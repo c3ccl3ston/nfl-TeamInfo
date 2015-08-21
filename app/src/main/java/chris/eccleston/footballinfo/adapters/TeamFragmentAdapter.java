@@ -32,9 +32,9 @@ public class TeamFragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return FragmentTeamSchedule.newInstance(mTeam);
-            case 1:
                 return FragmentTeamRoster.newInstance(mTeam, mRoster);
+            case 1:
+                return FragmentTeamSchedule.newInstance(mTeam);
             case 2:
                 return FragmentTeamInfo.newInstance(mTeam);
             default:
@@ -52,13 +52,12 @@ public class TeamFragmentAdapter extends FragmentPagerAdapter {
         Locale l = Locale.getDefault();
         switch (position) {
             case 0:
-                return mContext.getResources().getString(R.string.team_schedule_fragment_title).toUpperCase(l);
-            case 1:
                 return mContext.getResources().getString(R.string.team_roster_fragment_title).toUpperCase(l);
+            case 1:
+                return mContext.getResources().getString(R.string.team_schedule_fragment_title).toUpperCase(l);
             case 2:
                 return mContext.getResources().getString(R.string.team_info_fragment_title).toUpperCase(l);
         }
         return null;
     }
 }
-

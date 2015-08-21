@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import chris.eccleston.footballinfo.R;
@@ -67,27 +65,22 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamsViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
-        if (TeamsActivity.TEAMS_SORT_ORDER == 3) {
+//        if (TeamsActivity.TEAMS_SORT_ORDER == 3) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.teams_header, viewGroup, false);
-            return new RecyclerView.ViewHolder(view) {
-            };
-        } else {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.teams_header, viewGroup, false);
-            return new RecyclerView.ViewHolder(view) {
-            };
-        }
+        return new RecyclerView.ViewHolder(view) {
+        };
+//        } else {
+//            View view = LayoutInflater.from(mContext).inflate(R.layout.teams_header, viewGroup, false);
+//            return new RecyclerView.ViewHolder(view) {
+//            };
+//        }
     }
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (TeamsActivity.TEAMS_SORT_ORDER != 3) {
-            TextView textView = (TextView) viewHolder.itemView;
-            textView.setVisibility(View.GONE);
-        } else {
-            TextView textView = (TextView) viewHolder.itemView;
-            textView.setText(teamsList.get(position).getConference() + " " + teamsList.get(position).getDivision());
-            textView.setVisibility(View.VISIBLE);
-        }
+        viewHolder.itemView.setVisibility(TeamsActivity.TEAMS_SORT_ORDER != 3 ? View.GONE : View.VISIBLE);
+        TextView textView = (TextView) viewHolder.itemView.findViewById(R.id.conference_header_text);
+        textView.setText(teamsList.get(position).getConference() + " " + teamsList.get(position).getDivision());
     }
 
     @Override

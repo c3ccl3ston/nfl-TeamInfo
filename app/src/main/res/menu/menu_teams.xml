@@ -10,7 +10,7 @@
         <!--app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/weekly_schedule"
-        android:icon="@android:drawable/ic_menu_month"
+        android:icon="@drawable/ic_menu_today"
         android:orderInCategory="1"
         android:title="Weekly Schedule"
         app:showAsAction="always" />

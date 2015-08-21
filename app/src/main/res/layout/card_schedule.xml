@@ -89,13 +89,13 @@
             android:id="@+id/outcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:gravity="center_vertical"
-            android:textSize="20dp"
             android:layout_column="3"
-            android:layout_rowSpan="2"
             android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="10dp"
+            android:layout_rowSpan="2"
+            android:gravity="center_vertical"
             android:text="W"
+            android:textSize="20dp"
             android:visibility="gone" />
 
         <TextView
@@ -121,7 +121,7 @@
             android:layout_rowSpan="2"
             android:fontFamily="sans-serif-thin"
             android:gravity="right"
-            android:text="8:30"
+            android:text="4:25"
             android:textColor="@color/gray"
             android:textSize="30dp"
             android:visibility="visible" />
@@ -140,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="4"
+                android:layout_marginTop="2dp"
                 android:layout_row="0"
                 android:layout_rowSpan="1"
                 android:fontFamily="sans-serif-thin"

@@ -194,7 +194,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.menu_team_roster, mOptionsMenu);
 
-        if (mPager.getCurrentItem() != 1) {
+        if (mPager.getCurrentItem() != 0) {
             menu.findItem(R.id.sort).setVisible(false);
         } else {
             menu.findItem(R.id.sort).setVisible(true);

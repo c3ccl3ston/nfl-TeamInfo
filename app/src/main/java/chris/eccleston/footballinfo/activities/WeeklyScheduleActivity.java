@@ -91,9 +91,9 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        mAllGames = new ArrayList<List<Game>>();
+    protected void onResume() {
+        super.onResume();
+        mAllGames = new ArrayList<>();
         for (int i = 1; i <= 17; i++) {
             List<Game> mWeeklyGames = Game.find(Game.class, "week_number = ?", String.valueOf(i));
             mAllGames.add(mWeeklyGames);
@@ -105,6 +105,11 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
         mTabs.setupWithViewPager(mPager);
         mTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         mPager.addOnPageChangeListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         WeeklyScheduleActivity prevActivity = (WeeklyScheduleActivity) getLastCustomNonConfigurationInstance();
         if (prevActivity != null) {

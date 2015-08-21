@@ -95,7 +95,6 @@ public class TeamsActivity extends BaseActivity {
         teamsList.setLayoutManager(new LinearLayoutManager(this));
 
         if (initial_load) {
-            initWeeklySchedules();
             initTeamsDB();
         }
 
@@ -132,8 +131,6 @@ public class TeamsActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_teams, menu);
         mOptionsMenu = menu;
-//        mOptionsMenu.getItem(0).setIcon(colorizeIcon(android.R.drawable.ic_menu_month, getResources().getColor(R.color.nfl_color_accent)));
-        mOptionsMenu.getItem(1).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, getResources().getColor(R.color.nfl_color_accent)));
         handleMenuCheckboxes(mOptionsMenu);
         return true;
     }
@@ -141,8 +138,6 @@ public class TeamsActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
-//        mOptionsMenu.getItem(0).setIcon(colorizeIcon(android.R.drawable.ic_menu_month, getResources().getColor(R.color.nfl_color_accent)));
-        mOptionsMenu.getItem(1).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, getResources().getColor(R.color.nfl_color_accent)));
         handleMenuCheckboxes(mOptionsMenu);
         return super.onPrepareOptionsMenu(mOptionsMenu);
     }
@@ -159,8 +154,8 @@ public class TeamsActivity extends BaseActivity {
         if (id == R.id.weekly_schedule) {
             Intent intent = new Intent(TeamsActivity.APPLICATION_CONTEXT, WeeklyScheduleActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            intent.putExtra("teamID", teamID);
             m.startActivity(intent);
+            return super.onOptionsItemSelected(item);
         }
 
         if (id == R.id.sort_options) {
@@ -257,10 +252,13 @@ public class TeamsActivity extends BaseActivity {
             teamAdapter = new TeamAdapter(teams, getApplicationContext());
         }
 
-        srhd = new StickyRecyclerHeadersDecoration(teamAdapter);
+        if (srhd == null) {
+            srhd = new StickyRecyclerHeadersDecoration(teamAdapter);
+
 
         if (TEAMS_SORT_ORDER == SORT_BY_DIVISION) {
             teamsList.addItemDecoration(srhd);
+        }
         }
 
         teamsList.setAdapter(teamAdapter);
@@ -304,16 +302,6 @@ public class TeamsActivity extends BaseActivity {
     }
 
     private void initTeamsDB() {
-//        List<Team> teams = new ArrayList<>();
-//        try {
-//            teams = Team.listAll(Team.class);
-//        } catch (Exception e) {}
-//
-//        System.out.println("Teams size: " + teams.size());
-//        if(teams.size() >= 32) {
-//            return;
-//        }
-
         String[] team_locations = getResources().getStringArray(R.array.team_locations);
         String[] team_names = getResources().getStringArray(R.array.team_names);
         String[] team_conference = getResources().getStringArray(R.array.team_conferences);
@@ -345,6 +333,7 @@ public class TeamsActivity extends BaseActivity {
 
         initial_load = false;
         initPlayersDB();
+        initWeeklySchedules();
         initSchedulesDB();
         initTeamInfoFiles();
     }
