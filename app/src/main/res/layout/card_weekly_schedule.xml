@@ -126,8 +126,11 @@
             android:id="@+id/weekly_away_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/weekly_away_logo"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignTop="@+id/weekly_away_logo"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/weekly_away_logo"
             android:fontFamily="sans-serif-thin"
@@ -140,8 +143,11 @@
             android:id="@+id/weekly_home_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/weekly_home_logo"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignTop="@+id/weekly_home_logo"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@+id/weekly_home_logo"
             android:fontFamily="sans-serif-thin"
@@ -168,7 +174,6 @@
                 android:layout_centerVertical="true"
                 android:fontFamily="sans-serif-thin"
                 android:gravity="center"
-                android:text="1:00"
                 android:textColor="@color/gray"
                 android:textSize="35dp" />
 
@@ -199,7 +204,6 @@
                     android:layout_marginTop="-2dp"
                     android:fontFamily="sans-serif-thin"
                     android:gravity="center"
-                    android:text="ET"
                     android:textColor="@color/gray"
                     android:textSize="14dp" />
             </RelativeLayout>

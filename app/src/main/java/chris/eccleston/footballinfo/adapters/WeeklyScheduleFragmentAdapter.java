@@ -26,7 +26,6 @@ public class WeeklyScheduleFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        System.out.println("Position: " + position);
         switch (position) {
             case 0:
             case 1:

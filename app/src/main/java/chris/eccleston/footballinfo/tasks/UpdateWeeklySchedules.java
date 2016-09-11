@@ -2,7 +2,9 @@ package chris.eccleston.footballinfo.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -51,22 +53,24 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
         int gameID = 1;
         try {
             for (int weekNum = 1; weekNum <= 17; weekNum++) {
-                String url = "http://www.nfl.com/schedules/2015/REG" + weekNum;
-                Document doc = Jsoup.connect(url).get();
-                Elements scheduleTable = doc.select("ul[class~=schedules-table]").select("li");
+                String url = "http://www.nfl.com/schedules/2016/REG" + weekNum;
+                Connection con = Jsoup.connect(url).userAgent("Mozilla").timeout(10 * 1000);
+                Document doc = con.get();
+                Elements scheduleTable = doc.select("ul.schedules-table").get(1).select("li");
 
                 String date = "";
                 for (Element item : scheduleTable) {
                     if (item.hasClass("schedules-list-date")) {
                         date = dateId++ + " " + item.select("span > span").text();
+                        Log.d("DEBUG", item.select("span > span").text());
                         date = date.substring(0, date.lastIndexOf(' ')) + " " + Integer.parseInt(date.substring(date.lastIndexOf(' ') + 1));
                     } else {
-                        awayTeam = item.select("span[class~=team-name away]").text();
-                        awayScore = item.select("span[class~=team-score away]").text();
-                        homeTeam = item.select("span[class~=team-name home]").text();
-                        homeScore = item.select("span[class~=team-score home]").text();
-                        gameTime = item.select("span[class~=time]").text();
-                        pm = item.select("span[class~=pm]").text();
+                        awayTeam = item.select("span.team-name.away").text();
+                        awayScore = item.select("span.team-score.away").text();
+                        homeTeam = item.select("span.team-name.home").text();
+                        homeScore = item.select("span.team-score.home").text();
+                        gameTime = item.select("span.time").text();
+                        pm = item.select("span.pm").text();
 
                         Game existing_game = null;
                         try {
@@ -85,7 +89,7 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
         return null;

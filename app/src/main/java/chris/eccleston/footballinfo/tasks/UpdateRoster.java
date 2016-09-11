@@ -18,9 +18,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.fragments.FragmentTeamRoster;
 import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
+
+import static android.support.v4.content.ContextCompat.getDrawable;
 
 /**
  * Created by Chris on 2/9/2015.
@@ -32,7 +35,7 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
             "det/detroit-lions", "gb/green-bay-packers", "hou/houston-texans", "ind/indianapolis-colts", "jax/jacksonville-jaguars", "kc/kansas-city-chiefs",
             "mia/miami-dolphins", "min/minnesota-vikings", "ne/new-england-patriots", "no/new-orleans-saints", "nyg/new-york-giants", "nyj/new-york-jets",
             "oak/oakland-raiders", "phi/philadelphia-eagles", "pit/pittsburgh-steelers", "sd/san-diego-chargers", "sea/seattle-seahawks", "sf/san-francisco-49ers",
-            "stl/st-louis-rams", "tb/tampa-bay-buccaneers", "ten/tennessee-titans", "wsh/washington-redskins"};
+            "la/los-angeles-rams", "tb/tampa-bay-buccaneers", "ten/tennessee-titans", "wsh/washington-redskins"};
     public ProgressDialog progress_dialog;
     public int mSortOrder;
     private boolean singleTeam;
@@ -54,7 +57,7 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
     @Override
     protected void onPreExecute() {
         if (!singleTeam) {
-            progress_dialog = new ProgressDialog(mContext);
+            progress_dialog = new ProgressDialog(mContext, R.style.initialize_theme);
             progress_dialog.setMessage("Initializing files");
             progress_dialog.setIndeterminate(false);
             progress_dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -62,6 +65,7 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
             progress_dialog.setProgress(0);
             progress_dialog.setMax(100);
             progress_dialog.setProgressNumberFormat(null);
+            progress_dialog.setProgressDrawable(getDrawable(mContext, R.drawable.progressbar_states));
             progress_dialog.show();
         }
     }

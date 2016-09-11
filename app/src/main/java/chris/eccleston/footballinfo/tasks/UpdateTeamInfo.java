@@ -24,7 +24,7 @@ public class UpdateTeamInfo extends AsyncTask<Team, Void, Void> {
             "Detroit_Lions", "Green_Bay_Packers", "Houston_Texans", "Indianapolis_Colts", "Jacksonville_Jaguars", "Kansas_City_Chiefs",
             "Miami_Dolphins", "Minnesota_Vikings", "New_England_Patriots", "New_Orleans_Saints", "New_York_Giants", "New_York_Jets",
             "Oakland_Raiders", "Philadelphia_Eagles", "Pittsburgh_Steelers", "San_Diego_Chargers", "Seattle_Seahawks", "San_Francisco_49ers",
-            "St._Louis_Rams", "Tampa_Bay_Buccaneers", "Tennessee_Titans", "Washington_Redskins"};
+            "Los_Angeles_Rams", "Tampa_Bay_Buccaneers", "Tennessee_Titans", "Washington_Redskins"};
 
     private Team s_team;
     private Context mContext;

@@ -15,12 +15,25 @@
         <item name="colorPrimary">@color/nfl_primary_color</item>
         <item name="colorPrimaryDark">@color/nfl_primary_color_dark</item>
         <item name="colorAccent">@color/nfl_color_accent</item>
+        <item name="android:textColor">@color/nfl_primary_color</item>
         <item name="android:textColorPrimary">@color/nfl_color_accent</item>
         <item name="android:textColorSecondary">@color/nfl_color_accent</item>
     </style>
 
     <style name="nfl_popup_theme" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/nfl_primary_color</item>
+        <item name="android:textColor">@color/nfl_primary_color</item>
+        <item name="android:textColorPrimary">@color/nfl_primary_color</item>
+        <item name="android:textColorSecondary">@color/nfl_primary_color</item>
+    </style>
+
+    <style name="initialize_theme" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="colorAccent">@color/nfl_primary_color</item>
+        <item name="android:textColor">@color/nfl_primary_color</item>
         <item name="android:textColorPrimary">@color/nfl_primary_color</item>
         <item name="android:textColorSecondary">@color/nfl_primary_color</item>
     </style>
@@ -418,18 +431,18 @@
         <item name="android:textColorSecondary">@color/sf_primary_color</item>
     </style>
 
-    <style name="stl_theme" parent="nfl_theme">
-        <item name="colorPrimary">@color/stl_primary_color</item>
-        <item name="colorPrimaryDark">@color/stl_primary_color_dark</item>
-        <item name="colorAccent">@color/stl_color_accent</item>
-        <item name="android:textColorSecondary">@color/stl_color_accent</item>
-        <item name="colorControlNormal">@color/stl_color_accent</item>
+    <style name="los_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/los_primary_color</item>
+        <item name="colorPrimaryDark">@color/los_primary_color_dark</item>
+        <item name="colorAccent">@color/los_color_accent</item>
+        <item name="android:textColorSecondary">@color/los_color_accent</item>
+        <item name="colorControlNormal">@color/los_color_accent</item>
     </style>
 
-    <style name="stl_popup_theme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorAccent">@color/stl_primary_color</item>
-        <item name="android:textColor">@color/stl_primary_color</item>
-        <item name="android:textColorSecondary">@color/stl_primary_color</item>
+    <style name="los_popup_theme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/los_primary_color</item>
+        <item name="android:textColor">@color/los_primary_color</item>
+        <item name="android:textColorSecondary">@color/los_primary_color</item>
     </style>
 
     <style name="tb_theme" parent="nfl_theme">

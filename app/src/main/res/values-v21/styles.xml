@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="arz_theme" parent="nfl_theme">
+        <item name="colorPrimary">@color/arz_primary_color</item>
+        <item name="colorPrimaryDark">@color/arz_primary_color_dark</item>
+        <item name="colorAccent">@color/arz_color_accent</item>
+        <item name="android:textColorSecondary">@color/arz_color_accent</item>
+        <item name="colorControlNormal">@color/arz_color_accent</item>
+        <item name="android:navigationBarColor">@color/arz_primary_color_dark</item>
+    </style>
+</resources>

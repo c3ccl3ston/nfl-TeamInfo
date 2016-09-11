@@ -2,17 +2,18 @@ package chris.eccleston.footballinfo.types;
 
 import com.orm.SugarRecord;
 
+import java.util.Date;
+
 /**
  * Created by Chris on 2/12/2015.
  */
 public class Schedule extends SugarRecord<Schedule> {
     private int scheduleId;
-    private String date;
+    private Date date = new Date();
     private int againstTeam;
-    private String time;
     private boolean isHome;
     private String outcome = "";
-    private String gameScores;
+    private String gameScores = "";
     private boolean byeWeek;
 
     private int teamId;
@@ -20,18 +21,18 @@ public class Schedule extends SugarRecord<Schedule> {
     public Schedule() {
     }
 
-    public Schedule(int scheduleId, int teamId, String date, boolean isHome, int againstTeam, String time) {
+    public Schedule(int scheduleId, int teamId, Date date, boolean isHome, int againstTeam) {
         this.scheduleId = scheduleId;
         this.teamId = teamId;
         this.date = date;
         this.isHome = isHome;
         this.againstTeam = againstTeam;
-        this.time = time;
         this.outcome = "";
         this.byeWeek = false;
+        this.gameScores = "";
     }
 
-    public Schedule(int scheduleId, int teamId, String date, boolean isHome, int againstTeam, String outcome, String gameScores) {
+    public Schedule(int scheduleId, int teamId, Date date, boolean isHome, int againstTeam, String outcome, String gameScores) {
         this.scheduleId = scheduleId;
         this.teamId = teamId;
         this.date = date;
@@ -45,25 +46,22 @@ public class Schedule extends SugarRecord<Schedule> {
     public Schedule(int scheduleId, int teamId, boolean byeWeek) {
         this.scheduleId = scheduleId;
         this.teamId = teamId;
-        this.date = "";
-        this.time = "";
         this.outcome = "";
         this.byeWeek = true;
     }
 
-    public void updateSchedule(int scheduleId, int teamId, String date, boolean isHome, int againstTeam, String time) {
+    public void updateSchedule(int scheduleId, int teamId, Date date, boolean isHome, int againstTeam) {
         this.scheduleId = scheduleId;
         this.teamId = teamId;
         this.date = date;
         this.isHome = isHome;
         this.againstTeam = againstTeam;
-        this.time = time;
         this.outcome = "";
         this.byeWeek = false;
         this.save();
     }
 
-    public void updateSchedule(int scheduleId, int teamId, String date, boolean isHome, int againstTeam, String outcome, String gameScores) {
+    public void updateSchedule(int scheduleId, int teamId, Date date, boolean isHome, int againstTeam, String outcome, String gameScores) {
         this.scheduleId = scheduleId;
         this.teamId = teamId;
         this.date = date;
@@ -78,10 +76,9 @@ public class Schedule extends SugarRecord<Schedule> {
     public void updateSchedule(int scheduleId, int teamId, boolean byeWeek) {
         this.scheduleId = scheduleId;
         this.teamId = teamId;
-        this.date = "";
-        this.time = "";
         this.outcome = "";
         this.byeWeek = true;
+        this.gameScores = "";
         this.save();
     }
 
@@ -89,7 +86,7 @@ public class Schedule extends SugarRecord<Schedule> {
         return gameScores;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -99,10 +96,6 @@ public class Schedule extends SugarRecord<Schedule> {
 
     public int getAgainstTeam() {
         return againstTeam;
-    }
-
-    public String getTime() {
-        return time;
     }
 
     public boolean getByeWeek() {

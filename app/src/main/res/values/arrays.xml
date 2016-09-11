@@ -29,7 +29,7 @@
         <item>San Diego</item>
         <item>Seattle</item>
         <item>San Francisco</item>
-        <item>St. Louis</item>
+        <item>Los Angeles</item>
         <item>Tampa Bay</item>
         <item>Tennessee</item>
         <item>Washington</item>
@@ -97,7 +97,7 @@
         <item>@drawable/sd_logo</item>
         <item>@drawable/sea_logo</item>
         <item>@drawable/sf_logo</item>
-        <item>@drawable/stl_logo</item>
+        <item>@drawable/los_logo</item>
         <item>@drawable/tb_logo</item>
         <item>@drawable/ten_logo</item>
         <item>@drawable/was_logo</item>
@@ -131,7 +131,7 @@
         <item>@color/sd_primary_color</item>
         <item>@color/sea_primary_color</item>
         <item>@color/sf_primary_color</item>
-        <item>@color/stl_primary_color</item>
+        <item>@color/los_primary_color</item>
         <item>@color/tb_primary_color</item>
         <item>@color/ten_primary_color</item>
         <item>@color/was_primary_color</item>
@@ -165,7 +165,7 @@
         <item>@color/sd_primary_color_dark</item>
         <item>@color/sea_primary_color_dark</item>
         <item>@color/sf_primary_color_dark</item>
-        <item>@color/stl_primary_color_dark</item>
+        <item>@color/los_primary_color_dark</item>
         <item>@color/tb_primary_color_dark</item>
         <item>@color/ten_primary_color_dark</item>
         <item>@color/was_primary_color_dark</item>
@@ -199,7 +199,7 @@
         <item>@color/sd_color_accent</item>
         <item>@color/sea_color_accent</item>
         <item>@color/sf_color_accent</item>
-        <item>@color/stl_color_accent</item>
+        <item>@color/los_color_accent</item>
         <item>@color/tb_color_accent</item>
         <item>@color/ten_color_accent</item>
         <item>@color/was_color_accent</item>
@@ -301,7 +301,7 @@
         <item>@style/sd_theme</item>
         <item>@style/sea_theme</item>
         <item>@style/sf_theme</item>
-        <item>@style/stl_theme</item>
+        <item>@style/los_theme</item>
         <item>@style/tb_theme</item>
         <item>@style/ten_theme</item>
         <item>@style/was_theme</item>
@@ -335,7 +335,7 @@
         <item>@style/sd_popup_theme</item>
         <item>@style/sea_popup_theme</item>
         <item>@style/sf_popup_theme</item>
-        <item>@style/stl_popup_theme</item>
+        <item>@style/los_popup_theme</item>
         <item>@style/tb_popup_theme</item>
         <item>@style/ten_popup_theme</item>
         <item>@style/was_popup_theme</item>

@@ -117,9 +117,9 @@
     <color name="sf_primary_color_dark">#FFa20611</color>
     <color name="sf_color_accent">#FFC6A463</color>
 
-    <color name="stl_primary_color">#FF172e5b</color>
-    <color name="stl_primary_color_dark">#FF13264B</color>
-    <color name="stl_color_accent">#FFC9AF74</color>
+    <color name="los_primary_color">#FF172e5b</color>
+    <color name="los_primary_color_dark">#FF13264B</color>
+    <color name="los_color_accent">#FFC9AF74</color>
 
     <color name="tb_primary_color">#FFB20032</color>
     <color name="tb_primary_color_dark">#FF8b0027</color>

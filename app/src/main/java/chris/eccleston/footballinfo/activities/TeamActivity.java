@@ -54,6 +54,8 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
     Context mContext;
 
+    TeamActivity prevActivity = null;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -76,9 +78,9 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
         mContext = this;
 
-        if (savedInstanceState != null) {
-            mTabPosition = savedInstanceState.getInt("TAB");
-        }
+//        if (savedInstanceState != null) {
+//            mTabPosition = savedInstanceState.getInt("TAB");
+//        }
 
         ButterKnife.inject(this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -89,7 +91,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
         } catch (NullPointerException npe) {
         }
-        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, mColorAccent));
+        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_material, mColorAccent));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle(mTeamLocation + " " + mTeamName);
@@ -113,6 +115,22 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mTabPosition = mTabs.getSelectedTabPosition();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mTabPosition != -1) {
+            mPager.setCurrentItem(mTabPosition);
+        } else {
+            mPager.setCurrentItem(1);
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         // Initialize the ViewPager and set an adapter
@@ -123,7 +141,7 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         mTabs.setTabMode(TabLayout.MODE_FIXED);
         mPager.addOnPageChangeListener(this);
 
-        TeamActivity prevActivity = (TeamActivity) getLastCustomNonConfigurationInstance();
+        prevActivity = (TeamActivity) getLastCustomNonConfigurationInstance();
         if (prevActivity != null) {
             mPager.setCurrentItem(prevActivity.mTabPosition);
         }
@@ -133,6 +151,9 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         SORT_ORDER = savedInstanceState.getInt("TEAMS_SORT_ORDER");
+        if (savedInstanceState != null) {
+            mTabPosition = savedInstanceState.getInt("TAB");
+        }
         if (savedInstanceState.getBoolean("CARD_SHOWING")) {
             GetPlayerInfo.showCard();
         }
@@ -249,15 +270,15 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        if (tab.getText().equals("SCHEDULE")) {
-            mPager.setCurrentItem(0);
-        }
-        if (tab.getText().equals("ROSTER")) {
-            mPager.setCurrentItem(1);
-        }
-        if (tab.getText().equals("INFO")) {
-            mPager.setCurrentItem(2);
-        }
+//        if (tab.getText().equals("SCHEDULE")) {
+//            mPager.setCurrentItem(0);
+//        }
+//        if (tab.getText().equals("ROSTER")) {
+//            mPager.setCurrentItem(1);
+//        }
+//        if (tab.getText().equals("INFO")) {
+//            mPager.setCurrentItem(2);
+//        }
     }
 
     @Override

@@ -2,6 +2,7 @@ package chris.eccleston.footballinfo.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,17 +62,31 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
     @Override
     public void onBindViewHolder(WeeklyScheduleViewHolder weeklyScheduleViewHolder, int i) {
         Game mGame = mWeekSchedule.get(i);
-//        weeklyScheduleViewHolder.awayScore.setText(ci.getPosition());
-//        weeklyScheduleViewHolder.homeScore.setText(ci.getNumber());
         weeklyScheduleViewHolder.awayTeam.setText(mGame.getAwayTeam());
         Team awayTeam = Team.find(Team.class, "team_name = ?", mGame.getAwayTeam()).get(0);
         weeklyScheduleViewHolder.homeTeam.setText(mGame.getHomeTeam());
         Team homeTeam = Team.find(Team.class, "team_name = ?", mGame.getHomeTeam()).get(0);
 
-        weeklyScheduleViewHolder.gameTime.setText(mGame.getGameTime());
+        if (mGame.getGameTime().equals("FINAL")) {
+            weeklyScheduleViewHolder.homeScore.setVisibility(View.VISIBLE);
+            weeklyScheduleViewHolder.awayScore.setVisibility(View.VISIBLE);
+            weeklyScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
+            weeklyScheduleViewHolder.pm.setVisibility(View.GONE);
+            weeklyScheduleViewHolder.et.setVisibility(View.GONE);
+            weeklyScheduleViewHolder.gameTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+            weeklyScheduleViewHolder.homeScore.setText(mGame.getHomeScore());
+            weeklyScheduleViewHolder.awayScore.setText(mGame.getAwayScore());
+        } else {
+            weeklyScheduleViewHolder.gameTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 35);
+            weeklyScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
+            weeklyScheduleViewHolder.pm.setVisibility(View.VISIBLE);
+            weeklyScheduleViewHolder.et.setVisibility(View.VISIBLE);
+            weeklyScheduleViewHolder.homeScore.setVisibility(View.GONE);
+            weeklyScheduleViewHolder.awayScore.setVisibility(View.GONE);
+        }
         weeklyScheduleViewHolder.awayLogo.setImageResource(awayTeam.getTeamLogo());
         weeklyScheduleViewHolder.homeLogo.setImageResource(homeTeam.getTeamLogo());
-        weeklyScheduleViewHolder.pm.setText(mGame.getPm());
+        weeklyScheduleViewHolder.gameTime.setText(mGame.getGameTime());
     }
 
     @Override
@@ -89,6 +104,7 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
         protected ImageView awayLogo;
         protected ImageView homeLogo;
         protected TextView pm;
+        protected TextView et;
 
         public WeeklyScheduleViewHolder(View v) {
             super(v);
@@ -100,6 +116,7 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
             homeLogo = (ImageView) v.findViewById(R.id.weekly_home_logo);
             gameTime = (TextView) v.findViewById(R.id.weekly_game_time);
             pm = (TextView) v.findViewById(R.id.weekly_game_time_pm);
+            et = (TextView) v.findViewById(R.id.weekly_game_time_et);
         }
     }
 }

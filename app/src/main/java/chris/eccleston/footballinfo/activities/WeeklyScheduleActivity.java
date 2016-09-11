@@ -51,7 +51,7 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
         mPager = (ViewPager) findViewById(R.id.my_pager);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.nfl_primary_color)));
-        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha, getResources().getColor(R.color.nfl_color_accent)));
+//        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_material, getResources().getColor(R.color.nfl_color_accent)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("Schedule");
@@ -88,7 +88,6 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
     }
 
     @Override

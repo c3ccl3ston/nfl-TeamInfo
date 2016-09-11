@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -12,9 +13,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import chris.eccleston.footballinfo.activities.TeamActivity;
@@ -31,11 +37,11 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
             "det", "gb", "hou", "ind", "jax", "kc",
             "mia", "min", "ne", "no", "nyg", "nyj",
             "oak", "phi", "pit", "sd", "sea", "sf",
-            "stl", "tb", "ten", "wsh"},
+            "la", "tb", "ten", "wsh"},
             against_team_ids = {"Arizona", "Atlanta", "Baltimore", "Buffalo", "Carolina", "Chicago", "Cincinnati", "Cleveland",
                     "Dallas", "Denver", "Detroit", "Green Bay", "Houston", "Indianapolis", "Jacksonville", "Kansas City", "Miami",
                     "Minnesota", "New England", "New Orleans", "New York", "New York", "Oakland", "Philadelphia", "Pittsburgh", "San Diego",
-                    "Seattle", "San Francisco", "St. Louis", "Tampa Bay", "Tennessee", "Washington"};
+                    "Seattle", "San Francisco", "Los Angeles", "Tampa Bay", "Tennessee", "Washington"};
     private boolean mSingleTeam;
     private Team mTeam;
     private Context mContext;
@@ -71,125 +77,127 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                     Elements modcontent = doc.select("div[class=mod-content]");
                     Elements scheduleWeeks = modcontent.select("tr[class~=(oddrow|evenrow)]");
 
-                    System.out.println("Schedule Size: " + scheduleWeeks.size());
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(2016, Calendar.SEPTEMBER, 8, 13, 0);
+                    Date startDate = cal.getTime();
+                    cal.set(2017, Calendar.JANUARY, 1, 13, 0);
+                    Date endDate = cal.getTime();
 
-                    int num_bad_weeks = 0;
-                    if (scheduleWeeks.size() > 17) {
-                        for (int j = 0; j < scheduleWeeks.size(); j++) {
-                            String t = scheduleWeeks.get(j).select("td").get(1).text();
-                            String out = scheduleWeeks.get(j).text();
-                            if (t.contains("Jan") || t.contains("Feb")) {
-                                num_bad_weeks++;
-                            }
-                            if (out.contains("POSTPONED")) {
-                                scheduleWeeks.remove(j);
-                            }
-                        }
-                    }
-
-                    for (int j = 0; j < num_bad_weeks; j++) {
-                        scheduleWeeks.remove(0);
-                    }
-
-                    // Remove pre-season weeks
-                    if(modcontent.select("tr[class=stathead]").get(0).text().contains("Preseason")) {
-                        while (scheduleWeeks.size() > 17) {
-                            scheduleWeeks.remove(0);
-                        }
-                    }
-
-                    String date = "";
+                    Date date = new Date();
                     boolean isHome = false;
                     int againstTeam = 0;
-                    String time = "";
                     String outcome = "";
                     String scores = "";
 
                     int week_num = 1;
                     for (Element scheduleWeek : scheduleWeeks) {
-                        date = scheduleWeek.select("td").get(1).text();
-
-                        Elements outcome_element = scheduleWeek.select("li[class~=game-status (win|loss)?]");
-
-                        if (outcome_element.size() > 0) {
-                            outcome = outcome_element.select("li[class~=game-status (win|loss)?]").text();
-                            if(outcome.equals("W")) {
-                                num_wins++;
-                            } else if(outcome.equals("L")) {
-                                num_losses++;
+                        String dateTxt = scheduleWeek.select("td").get(1).text();
+                        DateFormat formatter = new SimpleDateFormat("EEE, MMM d");
+                        DateFormat formatterWithTime = new SimpleDateFormat("EEE, MMM d h:mm");
+                        boolean isByeWeek = false;
+                        try {
+                            date = formatter.parse(dateTxt);
+                            Calendar inst = Calendar.getInstance();
+                            inst.setTime(date);
+                            if (inst.get(Calendar.MONTH) == Calendar.JANUARY) {
+                                inst.set(Calendar.YEAR, 2017);
                             } else {
-                                num_ties++;
+                                inst.set(Calendar.YEAR, 2016);
                             }
-                        } else {
-                            outcome = "";
+                            date = inst.getTime();
+                        } catch (ParseException pe) {
+                            Log.e("PARSING_ERROR", pe.getMessage());
+                            isByeWeek = true;
                         }
 
-                        if (outcome.equals("")) {
-                            if (!date.equals("BYE WEEK")) {
-                                time = scheduleWeek.select("td").get(3).text();
-                                if (time.contains(":")) {
-                                    time = time.substring(0, time.indexOf(":") + 3);
+                        if ((startDate.getTime() <= date.getTime() && date.getTime() <= endDate.getTime()) || isByeWeek) {
+                            Log.d("SAVING", date.toString());
+
+                            Elements outcome_element = scheduleWeek.select("li[class~=game-status (win|loss)?]");
+
+                            if (outcome_element.size() > 0) {
+                                outcome = outcome_element.select("li[class~=game-status (win|loss)?]").text();
+                                if (outcome.equals("W")) {
+                                    num_wins++;
+                                } else if (outcome.equals("L")) {
+                                    num_losses++;
+                                } else {
+                                    num_ties++;
+                                }
+                            } else {
+                                outcome = "";
+                            }
+
+                            if (outcome.equals("")) {
+                                if (!isByeWeek) {
+                                    String time = scheduleWeek.select("td").get(3).text();
+                                    if (time.contains(":")) {
+                                        time = time.substring(0, time.indexOf(":") + 3);
+                                        Calendar inst = Calendar.getInstance();
+                                        inst.setTime(date);
+                                        inst.set(Calendar.HOUR, Integer.parseInt(time.substring(0, time.indexOf(":"))));
+                                        inst.set(Calendar.MINUTE, Integer.parseInt(time.substring(time.indexOf(":") + 1)));
+                                        date = inst.getTime();
+                                    }
                                 }
                             }
-                        }
 
-                        String home_game = scheduleWeek.select("li[class=game-status]").text();
+                            String home_game = scheduleWeek.select("li[class=game-status]").text();
 
-                        isHome = !home_game.equals("@");
+                            isHome = !home_game.equals("@");
 
-                        scores = scheduleWeek.select("li[class=score]").text();
+                            scores = scheduleWeek.select("li[class=score]").text();
 
-                        String vs_team = scheduleWeek.select("li[class=team-name]").text();
-                        boolean isGiants = false;
-                        boolean isJets = false;
-                        if (vs_team.equals("New York")) {
-                            if (scheduleWeek.select("li[class=team-name]").select("a").attr("href").contains("giants")) {
-                                isGiants = true;
+                            String vs_team = scheduleWeek.select("li[class=team-name]").text();
+                            boolean isGiants = false;
+                            boolean isJets = false;
+                            if (vs_team.equals("New York")) {
+                                if (scheduleWeek.select("li[class=team-name]").select("a").attr("href").contains("giants")) {
+                                    isGiants = true;
+                                }
+                                if (scheduleWeek.select("li[class=team-name]").select("a").attr("href").contains("jets")) {
+                                    isJets = true;
+                                }
                             }
-                            if (scheduleWeek.select("li[class=team-name]").select("a").attr("href").contains("jets")) {
-                                isJets = true;
-                            }
-                        }
 
-                        if (!date.equals("BYE WEEK")) {
-                            if (isGiants) {
-                                againstTeam = 20;
-                            } else if (isJets) {
-                                againstTeam = 21;
+                            if (!isByeWeek) {
+                                if (isGiants) {
+                                    againstTeam = 20;
+                                } else if (isJets) {
+                                    againstTeam = 21;
+                                } else {
+                                    int indx = Arrays.asList(against_team_ids).indexOf(vs_team);
+                                    againstTeam = Team.find(Team.class, "team_id = ?", String.valueOf(indx)).get(0).getTeamId();
+                                }
+                            }
+
+                            int schedule_id = (mTeam.getTeamId() * 17) + week_num++;
+
+                            Schedule existing_week = null;
+                            try {
+                                existing_week = Schedule.find(Schedule.class, "schedule_id = ?", String.valueOf(schedule_id)).get(0);
+                            } catch (Exception e) {
+                            }
+
+                            if (existing_week != null) {
+                                if (isByeWeek) {
+                                    existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), true);
+                                } else if (!outcome.equals("") && !outcome.equals("POSTPONED")) {
+                                    existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), outcome, scores);
+                                } else {
+                                    existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId());
+                                }
                             } else {
-                                int indx = Arrays.asList(against_team_ids).indexOf(vs_team);
-                                againstTeam = Team.find(Team.class, "team_id = ?", String.valueOf(indx)).get(0).getTeamId();
+                                Schedule schedule_week = null;
+                                if (isByeWeek) {
+                                    schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), true);
+                                } else if (!outcome.equals("") && !outcome.equals("POSTPONED")) {
+                                    schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), outcome, scores);
+                                } else {
+                                    schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId());
+                                }
+                                schedule_week.save();
                             }
-                        }
-
-                        int schedule_id = (mTeam.getTeamId() * 17) + week_num++;
-
-                        Schedule existing_week = null;
-                        try {
-                            existing_week = Schedule.find(Schedule.class, "schedule_id = ?", String.valueOf(schedule_id)).get(0);
-                        } catch (Exception e) {
-
-                        }
-
-                        if (existing_week != null) {
-                            if (date.equals("BYE WEEK")) {
-                                existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), true);
-                            } else if (!outcome.equals("") && !outcome.equals("POSTPONED")) {
-                                existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), outcome, scores);
-                            } else {
-                                existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), time);
-                            }
-                            System.out.println(existing_week.toString());
-                        } else {
-                            Schedule schedule_week = null;
-                            if (date.equals("BYE WEEK")) {
-                                schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), true);
-                            } else if (!outcome.equals("") && !outcome.equals("POSTPONED")) {
-                                schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), outcome, scores);
-                            } else {
-                                schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), time);
-                            }
-                            schedule_week.save();
                         }
                     }
 

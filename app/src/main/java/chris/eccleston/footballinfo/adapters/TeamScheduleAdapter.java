@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import chris.eccleston.footballinfo.R;
@@ -39,7 +41,11 @@ public class TeamScheduleAdapter extends RecyclerView.Adapter<TeamScheduleAdapte
         Schedule ci = scheduleWeeks.get(i);
 
         teamScheduleViewHolder.weekNumber.setText("Week " + (i + 1));
-        teamScheduleViewHolder.weekDate.setText(ci.getDate());
+
+        DateFormat formatter = new SimpleDateFormat("EEE, MMM d");
+        DateFormat timeFormatter = new SimpleDateFormat("h:mm");
+
+        teamScheduleViewHolder.weekDate.setText(formatter.format(ci.getDate()));
 
         if (!ci.getByeWeek()) {
             teamScheduleViewHolder.opponentLogo.setVisibility(View.VISIBLE);
@@ -57,12 +63,22 @@ public class TeamScheduleAdapter extends RecyclerView.Adapter<TeamScheduleAdapte
             }
 
             if (ci.getOutcome().equals("")) {
+                String time = timeFormatter.format(ci.getDate());
+//                if(ci.getTime().contains(":")) {
                 teamScheduleViewHolder.score.setVisibility(View.GONE);
                 teamScheduleViewHolder.outcome.setVisibility(View.GONE);
                 teamScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
                 teamScheduleViewHolder.pm.setVisibility(View.VISIBLE);
                 teamScheduleViewHolder.et.setVisibility(View.VISIBLE);
-                teamScheduleViewHolder.gameTime.setText(ci.getTime());
+                teamScheduleViewHolder.gameTime.setText(time);
+//                } else {
+//                    teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
+//                    teamScheduleViewHolder.pm.setVisibility(View.GONE);
+//                    teamScheduleViewHolder.et.setVisibility(View.GONE);
+//                    teamScheduleViewHolder.score.setVisibility(View.VISIBLE);
+//                    teamScheduleViewHolder.outcome.setVisibility(View.GONE);
+//                    teamScheduleViewHolder.score.setText("1:00");
+//                }
             } else {
                 teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
                 teamScheduleViewHolder.pm.setVisibility(View.GONE);
