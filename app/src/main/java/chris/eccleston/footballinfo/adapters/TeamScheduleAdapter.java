@@ -62,13 +62,22 @@ public class TeamScheduleAdapter extends RecyclerView.Adapter<TeamScheduleAdapte
             }
 
             if (ci.getOutcome().equals("")) {
-                String time = timeFormatter.format(ci.getDate());
-                teamScheduleViewHolder.score.setVisibility(View.GONE);
-                teamScheduleViewHolder.outcome.setVisibility(View.GONE);
-                teamScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
-                teamScheduleViewHolder.pm.setVisibility(View.VISIBLE);
-                teamScheduleViewHolder.et.setVisibility(View.VISIBLE);
-                teamScheduleViewHolder.gameTime.setText(time);
+                if (!ci.getScores().matches("\\d+\\-\\d+")) {
+                    String time = timeFormatter.format(ci.getDate());
+                    teamScheduleViewHolder.score.setVisibility(View.GONE);
+                    teamScheduleViewHolder.outcome.setVisibility(View.GONE);
+                    teamScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
+                    teamScheduleViewHolder.pm.setVisibility(View.VISIBLE);
+                    teamScheduleViewHolder.et.setVisibility(View.VISIBLE);
+                    teamScheduleViewHolder.gameTime.setText(time);
+                } else {
+                    teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
+                    teamScheduleViewHolder.pm.setVisibility(View.GONE);
+                    teamScheduleViewHolder.et.setVisibility(View.GONE);
+                    teamScheduleViewHolder.outcome.setVisibility(View.GONE);
+                    teamScheduleViewHolder.score.setVisibility(View.VISIBLE);
+                    teamScheduleViewHolder.score.setText(ci.getScores());
+                }
             } else {
                 teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
                 teamScheduleViewHolder.pm.setVisibility(View.GONE);

@@ -2,7 +2,6 @@ package chris.eccleston.footballinfo.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -62,7 +61,6 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
                 for (Element item : scheduleTable) {
                     if (item.hasClass("schedules-list-date")) {
                         date = dateId++ + " " + item.select("span > span").text();
-                        Log.d("DEBUG", item.select("span > span").text());
                         date = date.substring(0, date.lastIndexOf(' ')) + " " + Integer.parseInt(date.substring(date.lastIndexOf(' ') + 1));
                     } else {
                         awayTeam = item.select("span.team-name.away").text();

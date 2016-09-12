@@ -109,8 +109,6 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                         }
 
                         if ((date.after(startDate) && date.before(endDate)) || isByeWeek) {
-                            Log.d("SAVING", date.toString());
-
                             Elements outcome_element = scheduleWeek.select("li[class~=game-status (win|loss)?]");
 
                             if (outcome_element.size() > 0) {
@@ -119,7 +117,7 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                                     num_wins++;
                                 } else if (outcome.equals("L")) {
                                     num_losses++;
-                                } else {
+                                } else if (outcome.equals("T")) {
                                     num_ties++;
                                 }
                             } else {
@@ -183,7 +181,7 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                                 } else if (!outcome.equals("") && !outcome.equals("POSTPONED")) {
                                     existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), outcome, scores);
                                 } else {
-                                    existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId());
+                                    existing_week.updateSchedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), "", scores);
                                 }
                             } else {
                                 Schedule schedule_week = null;
@@ -192,7 +190,7 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                                 } else if (!outcome.equals("") && !outcome.equals("POSTPONED")) {
                                     schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), outcome, scores);
                                 } else {
-                                    schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId());
+                                    schedule_week = new Schedule(schedule_id, mTeam.getTeamId(), date, isHome, Team.find(Team.class, "team_id = ?", String.valueOf(againstTeam)).get(0).getTeamId(), "", scores);
                                 }
                                 schedule_week.save();
                             }
