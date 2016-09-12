@@ -22,16 +22,16 @@ import chris.eccleston.footballinfo.types.Team;
 public class BaseActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "PREFERENCES";
+    public static final int SORT_BY_NAME = 0;
+    public static final int SORT_BY_NUMBER = 1;
+    public static final int SORT_BY_POSITION = 2;
+    public static final int SORT_BY_LOCATION = 0;
+    public static final int SORT_BY_TEAMNAME = 1;
+    public static final int SORT_BY_RECORD = 2;
+    public static final int SORT_BY_DIVISION = 3;
     public static int TEAMS_SORT_ORDER = 0;
     public static int SORT_ORDER = -1;
     public static Toolbar mToolbar;
-    public final int SORT_BY_NAME = 0;
-    public final int SORT_BY_NUMBER = 1;
-    public final int SORT_BY_POSITION = 2;
-    public final int SORT_BY_LOCATION = 0;
-    public final int SORT_BY_TEAMNAME = 1;
-    public final int SORT_BY_RECORD = 2;
-    public final int SORT_BY_DIVISION = 3;
     public final String TEAM_ID = "teamID";
 
     public static void updateSubtitle(Team team) {
@@ -130,72 +130,5 @@ public class BaseActivity extends AppCompatActivity {
         });
         SORT_ORDER = SORT_BY_POSITION;
         return roster;
-    }
-
-    public List<Team> sortByLocation(List<Team> teams) {
-        Collections.sort(teams, new Comparator<Team>() {
-            public int compare(Team s1, Team s2) {
-                if (s1.getLocation().equals(s2.getLocation())) {
-                    return s1.getTeamName().compareToIgnoreCase(s2.getTeamName());
-                }
-                return s1.getLocation().compareToIgnoreCase(s2.getLocation());
-            }
-        });
-        TEAMS_SORT_ORDER = SORT_BY_LOCATION;
-        return teams;
-    }
-
-    public List<Team> sortByTeamName(List<Team> teams) {
-        Collections.sort(teams, new Comparator<Team>() {
-            public int compare(Team s1, Team s2) {
-                return s1.getTeamName().compareToIgnoreCase(s2.getTeamName());
-            }
-        });
-        TEAMS_SORT_ORDER = SORT_BY_TEAMNAME;
-        return teams;
-    }
-
-    public List<Team> sortByRecord(List<Team> teams) {
-        Collections.sort(teams, new Comparator<Team>() {
-            public int compare(Team s1, Team s2) {
-                if (s1.getWinPercentage() == s2.getWinPercentage()) {
-                    if (s1.getNumGames() == s2.getNumGames()) {
-                        return s1.getLocation().compareToIgnoreCase(s2.getLocation());
-                    } else if (s1.getNumGames() > s2.getNumGames()) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                } else if (s1.getWinPercentage() > s2.getWinPercentage()) {
-                    return -1;
-                } else {
-                    return 1;
-                }
-            }
-        });
-        TEAMS_SORT_ORDER = SORT_BY_RECORD;
-        return teams;
-    }
-
-    public List<Team> sortByDivision(List<Team> teams) {
-        Collections.sort(teams, new Comparator<Team>() {
-            public int compare(Team s1, Team s2) {
-                String team_one = s1.getConference() + " " + s1.getDivision();
-                String team_two = s2.getConference() + " " + s2.getDivision();
-                if (team_one.equals(team_two)) {
-                    if (s1.getWinPercentage() == s2.getWinPercentage()) {
-                        return s1.getLocation().compareToIgnoreCase(s2.getLocation());
-                    } else if (s1.getWinPercentage() < s2.getWinPercentage()) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                } else {
-                    return team_one.compareToIgnoreCase(team_two);
-                }
-            }
-        });
-        TEAMS_SORT_ORDER = SORT_BY_DIVISION;
-        return teams;
     }
 }

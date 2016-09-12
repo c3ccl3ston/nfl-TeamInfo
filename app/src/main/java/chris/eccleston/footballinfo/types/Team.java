@@ -3,7 +3,10 @@ package chris.eccleston.footballinfo.types;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-public class Team extends SugarRecord<Team> {
+import chris.eccleston.footballinfo.activities.BaseActivity;
+import chris.eccleston.footballinfo.activities.TeamsActivity;
+
+public class Team extends SugarRecord<Team> implements Comparable<Team> {
     @Ignore
     protected static final long serialVersionUID = 1L;
 
@@ -11,15 +14,9 @@ public class Team extends SugarRecord<Team> {
     public String location;
     public String teamName;
     public int teamImage;
-    //    public boolean isChecked;
-//    public double winPercentage;
-//    public boolean isFavorite;
-//    public int games;
     public int color_primary;
     public int color_primary_dark;
     public int color_accent;
-    //    public String NFLAbbreviation;
-//    public String ESPNAbbreviation;
     public String conference;
     public String division;
     public int themeId;
@@ -28,7 +25,8 @@ public class Team extends SugarRecord<Team> {
     public int ties;
     private int teamPopupId;
 
-    public Team() {}
+    public Team() {
+    }
 
     public Team(int teamId, String location, String teamName, int teamImage, int color_primary, int color_primary_dark, int color_accent, String teamConference, String teamDivision, int themeId, int teamPopupId, int wins, int losses, int ties) {
         this.teamId = teamId;
@@ -54,14 +52,6 @@ public class Team extends SugarRecord<Team> {
     public String getDivision() {
         return this.division;
     }
-//
-//    public String getNFLAbbreviation() {
-//        return this.NFLAbbreviation;
-//    }
-//
-//    public String getESPNAbbreviation() {
-//        return this.ESPNAbbreviation;
-//    }
 
     public int getColorPrimary() {
         return this.color_primary;
@@ -87,42 +77,26 @@ public class Team extends SugarRecord<Team> {
         return this.teamImage;
     }
 
-//    public boolean getChecked() {
-//        return this.isChecked;
-//    }
-//
-//    public void setChecked(boolean checked) {
-//        this.isChecked = checked;
-//    }
-//
-//    public void setWinPercentage(double wins) {
-//        this.winPercentage = wins;
-//    }
-//
     public double getWinPercentage() {
-        return ((double) this.wins / (double) (this.wins + this.losses + this.ties));
+        double wins = this.wins + (this.ties / 2.0);
+        return (wins / (double) (this.wins + this.losses + this.ties));
     }
 
     public int getNumGames() {
         return (this.wins + this.losses + this.ties);
     }
 
-//
-//    public boolean isFavorite() {
-//        return this.isFavorite;
-//    }
-//
-//    public void setAsFavorite(boolean fav) {
-//        this.isFavorite = fav;
-//    }
-
-    public int getTeamId() { return this.teamId; }
+    public int getTeamId() {
+        return this.teamId;
+    }
 
     public int getThemeId() {
         return this.themeId;
     }
 
-    public int getTeamPopupId() { return this.teamPopupId; }
+    public int getTeamPopupId() {
+        return this.teamPopupId;
+    }
 
     public int getWins() {
         return this.wins;
@@ -146,5 +120,37 @@ public class Team extends SugarRecord<Team> {
 
     public void setTies(int ties) {
         this.ties = ties;
+    }
+
+    @Override
+    public int compareTo(Team s2) {
+        switch (TeamsActivity.TEAMS_SORT_ORDER) {
+            case BaseActivity.SORT_BY_TEAMNAME:
+                return getTeamName().compareToIgnoreCase(s2.getTeamName());
+            case BaseActivity.SORT_BY_RECORD:
+                if (getWinPercentage() == s2.getWinPercentage()) {
+                    return getLocation().compareToIgnoreCase(s2.getLocation());
+                } else {
+                    return Double.compare(s2.getWinPercentage(), getWinPercentage());
+                }
+            case BaseActivity.SORT_BY_DIVISION:
+                String team_one = getConference() + " " + getDivision();
+                String team_two = s2.getConference() + " " + s2.getDivision();
+                if (team_one.equals(team_two)) {
+                    if (getWinPercentage() == s2.getWinPercentage()) {
+                        return getLocation().compareToIgnoreCase(s2.getLocation());
+                    } else {
+                        return Double.compare(s2.getWinPercentage(), getWinPercentage());
+                    }
+                } else {
+                    return team_one.compareToIgnoreCase(team_two);
+                }
+            case BaseActivity.SORT_BY_LOCATION:
+            default:
+                if (getLocation().equals(s2.getLocation())) {
+                    return getTeamName().compareToIgnoreCase(s2.getTeamName());
+                }
+                return getLocation().compareToIgnoreCase(s2.getLocation());
+        }
     }
 }

@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -78,9 +77,9 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                     Elements scheduleWeeks = modcontent.select("tr[class~=(oddrow|evenrow)]");
 
                     Calendar cal = Calendar.getInstance();
-                    cal.set(2016, Calendar.SEPTEMBER, 8, 13, 0);
+                    cal.set(2016, Calendar.SEPTEMBER, 7, 13, 0);
                     Date startDate = cal.getTime();
-                    cal.set(2017, Calendar.JANUARY, 1, 13, 0);
+                    cal.set(2017, Calendar.JANUARY, 2, 13, 0);
                     Date endDate = cal.getTime();
 
                     Date date = new Date();
@@ -93,7 +92,6 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                     for (Element scheduleWeek : scheduleWeeks) {
                         String dateTxt = scheduleWeek.select("td").get(1).text();
                         DateFormat formatter = new SimpleDateFormat("EEE, MMM d");
-                        DateFormat formatterWithTime = new SimpleDateFormat("EEE, MMM d h:mm");
                         boolean isByeWeek = false;
                         try {
                             date = formatter.parse(dateTxt);
@@ -110,7 +108,7 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                             isByeWeek = true;
                         }
 
-                        if ((startDate.getTime() <= date.getTime() && date.getTime() <= endDate.getTime()) || isByeWeek) {
+                        if ((date.after(startDate) && date.before(endDate)) || isByeWeek) {
                             Log.d("SAVING", date.toString());
 
                             Elements outcome_element = scheduleWeek.select("li[class~=game-status (win|loss)?]");
@@ -226,63 +224,7 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
         } else {
             TeamsActivity.refreshTeamsList.setRefreshing(false);
             List<Team> mTeams = Team.listAll(Team.class);
-            switch (TeamsActivity.TEAMS_SORT_ORDER) {
-                case 1:
-                    Collections.sort(mTeams, new Comparator<Team>() {
-                        public int compare(Team s1, Team s2) {
-                            return s1.getTeamName().compareToIgnoreCase(s2.getTeamName());
-                        }
-                    });
-                    break;
-                case 2:
-                    Collections.sort(mTeams, new Comparator<Team>() {
-                        public int compare(Team s1, Team s2) {
-                            if (s1.getWinPercentage() == s2.getWinPercentage()) {
-                                if (s1.getNumGames() == s2.getNumGames()) {
-                                    return s1.getLocation().compareToIgnoreCase(s2.getLocation());
-                                } else if (s1.getNumGames() > s2.getNumGames()) {
-                                    return -1;
-                                } else {
-                                    return 1;
-                                }
-                            } else if (s1.getWinPercentage() > s2.getWinPercentage()) {
-                                return -1;
-                            } else {
-                                return 1;
-                            }
-                        }
-                    });
-                    break;
-                case 3:
-                    Collections.sort(mTeams, new Comparator<Team>() {
-                        public int compare(Team s1, Team s2) {
-                            String team_one = s1.getConference() + " " + s1.getDivision();
-                            String team_two = s2.getConference() + " " + s2.getDivision();
-                            if (team_one.equals(team_two)) {
-                                if (s1.getWinPercentage() == s2.getWinPercentage()) {
-                                    return s1.getLocation().compareToIgnoreCase(s2.getLocation());
-                                } else if (s1.getWinPercentage() < s2.getWinPercentage()) {
-                                    return 1;
-                                } else {
-                                    return -1;
-                                }
-                            } else {
-                                return team_one.compareToIgnoreCase(team_two);
-                            }
-                        }
-                    });
-                    break;
-                case 0:
-                default:
-                    Collections.sort(mTeams, new Comparator<Team>() {
-                        public int compare(Team s1, Team s2) {
-                            if (s1.getLocation().equals(s2.getLocation())) {
-                                return s1.getTeamName().compareToIgnoreCase(s2.getTeamName());
-                            }
-                            return s1.getLocation().compareToIgnoreCase(s2.getLocation());
-                        }
-                    });
-            }
+            Collections.sort(mTeams);
             mTeamAdapter.updateList(mTeams);
         }
     }

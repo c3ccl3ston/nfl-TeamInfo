@@ -45,9 +45,8 @@ public class TeamScheduleAdapter extends RecyclerView.Adapter<TeamScheduleAdapte
         DateFormat formatter = new SimpleDateFormat("EEE, MMM d");
         DateFormat timeFormatter = new SimpleDateFormat("h:mm");
 
-        teamScheduleViewHolder.weekDate.setText(formatter.format(ci.getDate()));
-
         if (!ci.getByeWeek()) {
+            teamScheduleViewHolder.weekDate.setText(formatter.format(ci.getDate()));
             teamScheduleViewHolder.opponentLogo.setVisibility(View.VISIBLE);
             teamScheduleViewHolder.gameLocation.setVisibility(View.VISIBLE);
             teamScheduleViewHolder.opponentName.setVisibility(View.VISIBLE);
@@ -64,21 +63,12 @@ public class TeamScheduleAdapter extends RecyclerView.Adapter<TeamScheduleAdapte
 
             if (ci.getOutcome().equals("")) {
                 String time = timeFormatter.format(ci.getDate());
-//                if(ci.getTime().contains(":")) {
                 teamScheduleViewHolder.score.setVisibility(View.GONE);
                 teamScheduleViewHolder.outcome.setVisibility(View.GONE);
                 teamScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
                 teamScheduleViewHolder.pm.setVisibility(View.VISIBLE);
                 teamScheduleViewHolder.et.setVisibility(View.VISIBLE);
                 teamScheduleViewHolder.gameTime.setText(time);
-//                } else {
-//                    teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
-//                    teamScheduleViewHolder.pm.setVisibility(View.GONE);
-//                    teamScheduleViewHolder.et.setVisibility(View.GONE);
-//                    teamScheduleViewHolder.score.setVisibility(View.VISIBLE);
-//                    teamScheduleViewHolder.outcome.setVisibility(View.GONE);
-//                    teamScheduleViewHolder.score.setText("1:00");
-//                }
             } else {
                 teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
                 teamScheduleViewHolder.pm.setVisibility(View.GONE);
@@ -104,6 +94,7 @@ public class TeamScheduleAdapter extends RecyclerView.Adapter<TeamScheduleAdapte
             teamScheduleViewHolder.gameLocation.setVisibility(View.GONE);
             teamScheduleViewHolder.gameTime.setVisibility(View.GONE);
             teamScheduleViewHolder.opponentName.setVisibility(View.GONE);
+            teamScheduleViewHolder.weekDate.setVisibility(View.GONE);
             teamScheduleViewHolder.byeWeek.setVisibility(View.VISIBLE);
         }
     }

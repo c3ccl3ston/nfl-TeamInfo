@@ -21,6 +21,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -166,23 +167,20 @@ public class TeamsActivity extends BaseActivity {
         }
         if (id == R.id.teams_sort_by_location) {
             TEAMS_SORT_ORDER = SORT_BY_LOCATION;
-            sortByLocation(teams);
         }
         if (id == R.id.teams_sort_by_name) {
             TEAMS_SORT_ORDER = SORT_BY_TEAMNAME;
-            sortByTeamName(teams);
         }
         if (id == R.id.teams_sort_by_record) {
             TEAMS_SORT_ORDER = SORT_BY_RECORD;
-            sortByRecord(teams);
         }
         if (id == R.id.teams_sort_by_division) {
             if (TEAMS_SORT_ORDER != SORT_BY_DIVISION) {
                 teamsList.addItemDecoration(srhd);
             }
             TEAMS_SORT_ORDER = SORT_BY_DIVISION;
-            sortByDivision(teams);
         }
+        Collections.sort(teams);
         teamAdapter.updateList(teams);
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = preferences.edit();
@@ -391,19 +389,6 @@ public class TeamsActivity extends BaseActivity {
     }
 
     public void setSortOrder() {
-        switch (TEAMS_SORT_ORDER) {
-            case SORT_BY_LOCATION:
-                sortByLocation(teams);
-                break;
-            case SORT_BY_TEAMNAME:
-                sortByTeamName(teams);
-                break;
-            case SORT_BY_RECORD:
-                sortByRecord(teams);
-                break;
-            case SORT_BY_DIVISION:
-                sortByDivision(teams);
-                break;
-        }
+        Collections.sort(teams);
     }
 }
