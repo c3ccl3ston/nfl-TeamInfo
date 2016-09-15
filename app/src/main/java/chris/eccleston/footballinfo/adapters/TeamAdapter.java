@@ -7,16 +7,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import chris.eccleston.footballinfo.R;
+import chris.eccleston.footballinfo.activities.BaseActivity;
 import chris.eccleston.footballinfo.activities.TeamActivity;
 import chris.eccleston.footballinfo.activities.TeamsActivity;
 import chris.eccleston.footballinfo.types.Team;
@@ -32,10 +34,6 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamsViewHolde
         mContext = context;
     }
 
-    public void setSticky(boolean isSticky) {
-        this.isSticky = isSticky;
-    }
-
     public void updateList(List<Team> data) {
         teamsList = data;
         notifyDataSetChanged();
@@ -44,36 +42,33 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamsViewHolde
     @Override
     public long getHeaderId(int position) {
         String division = teamsList.get(position).getConference() + " " + teamsList.get(position).getDivision();
-        if (division.equals("AFC East")) {
-            return 1L;
-        } else if (division.equals("AFC North")) {
-            return 2L;
-        } else if (division.equals("AFC South")) {
-            return 3L;
-        } else if (division.equals("AFC West")) {
-            return 4L;
-        } else if (division.equals("NFC East")) {
-            return 5L;
-        } else if (division.equals("NFC North")) {
-            return 6L;
-        } else if (division.equals("NFC South")) {
-            return 7L;
-        } else {
-            return 8L;
+        switch (division) {
+            case "AFC East":
+                return 1L;
+            case "AFC North":
+                return 2L;
+            case "AFC South":
+                return 3L;
+            case "AFC West":
+                return 4L;
+            case "NFC East":
+                return 5L;
+            case "NFC North":
+                return 6L;
+            case "NFC South":
+                return 7L;
+            case "NFC West":
+                return 8L;
+            default:
+                return 0;
         }
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup viewGroup) {
-//        if (TeamsActivity.TEAMS_SORT_ORDER == 3) {
-            View view = LayoutInflater.from(mContext).inflate(R.layout.teams_header, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.teams_header, viewGroup, false);
         return new RecyclerView.ViewHolder(view) {
         };
-//        } else {
-//            View view = LayoutInflater.from(mContext).inflate(R.layout.teams_header, viewGroup, false);
-//            return new RecyclerView.ViewHolder(view) {
-//            };
-//        }
     }
 
     @Override
@@ -89,16 +84,12 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamsViewHolde
     }
 
     @Override
-    public void onBindViewHolder(TeamsViewHolder teamViewHolder, int i) {
+    public void onBindViewHolder(TeamsViewHolder holder, int i) {
         Team ci = teamsList.get(i);
-        teamViewHolder.textViewName.setText(ci.location);
-        teamViewHolder.textViewTeamName.setText(ci.teamName);
-        if (ci.getTies() != 0) {
-            teamViewHolder.textViewTeamRecord.setText("(" + ci.getWins() + " - " + ci.getLosses() + " - " + ci.getTies() + ")");
-        } else {
-            teamViewHolder.textViewTeamRecord.setText("(" + ci.getWins() + " - " + ci.getLosses() + ")");
-        }
-        teamViewHolder.imageViewLogo.setImageResource(ci.getTeamLogo());
+        holder.textViewName.setText(ci.location);
+        holder.textViewTeamName.setText(ci.teamName);
+        holder.textViewTeamRecord.setText("(" + ci.getWins() + " - " + ci.getLosses() + (ci.getTies() != 0 ? " - " + ci.getTies() : "") + ")");
+        holder.imageViewLogo.setImageResource(ci.getTeamLogo());
     }
 
     @Override
@@ -107,44 +98,30 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.TeamsViewHolde
         return new TeamsViewHolder(itemView, mContext);
     }
 
-    public static class TeamsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
-        protected Context mContext;
-        protected CardView card;
-        protected ImageView imageViewLogo;
-        protected TextView textViewName;
-        protected TextView textViewTeamName;
-        protected TextView textViewTeamRecord;
-        protected CheckBox checkBoxFavTeam;
-        protected ImageView imageViewFavTeam;
+    static class TeamsViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.card_view)
+        CardView card;
+        @BindView(R.id.teamImage)
+        ImageView imageViewLogo;
+        @BindView(R.id.locationTextView)
+        TextView textViewName;
+        @BindView(R.id.teamNameText)
+        TextView textViewTeamName;
+        @BindView(R.id.teamRecord)
+        TextView textViewTeamRecord;
 
         public TeamsViewHolder(View v, Context context) {
             super(v);
-            mContext = context;
-            v.setOnClickListener(this);
-            v.setOnLongClickListener(this);
-            imageViewLogo = (ImageView) v.findViewById(R.id.teamImage);
-            textViewName = (TextView) v.findViewById(R.id.locationTextView);
-            textViewTeamName = (TextView) v.findViewById(R.id.teamNameText);
-            textViewTeamRecord = (TextView) v.findViewById(R.id.teamRecord);
-            checkBoxFavTeam = (CheckBox) v.findViewById(R.id.fav_selected);
-            imageViewFavTeam = (ImageView) v.findViewById(R.id.fav_image);
-            card = (CardView) v.findViewById(R.id.card_view);
+            ButterKnife.bind(this, v);
         }
 
-        @Override
+        @OnClick({R.id.card_view})
         public void onClick(View view) {
             int teamID = Team.find(Team.class, "team_name = ?", textViewTeamName.getText().toString()).get(0).getTeamId();
-            Intent intent = new Intent(TeamsActivity.APPLICATION_CONTEXT, TeamActivity.class);
+            Intent intent = new Intent(BaseActivity.mContext, TeamActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("teamID", teamID);
-            mContext.startActivity(intent);
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            String text = textViewName.getText().toString() + " " + textViewTeamName.getText().toString();
-            Toast.makeText(TeamsActivity.APPLICATION_CONTEXT, text, Toast.LENGTH_LONG).show();
-            return true;
+            view.getContext().startActivity(intent);
         }
     }
 }

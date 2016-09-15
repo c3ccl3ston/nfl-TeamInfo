@@ -30,6 +30,7 @@ public class FragmentWeeklySchedule extends BaseFragment {
     public SwipeRefreshLayout refreshWeeklySchedule;
     public Context mContext;
     public FragmentWeeklySchedule mFragmentWeeklySchedule;
+    public WeeklyScheduleAdapter ca;
 
     protected StickyRecyclerHeadersDecoration mStickyHeaders;
 
@@ -37,18 +38,31 @@ public class FragmentWeeklySchedule extends BaseFragment {
         mFragmentWeeklySchedule = this;
     }
 
-    public void stopRefreshing() {
-        refreshWeeklySchedule.setRefreshing(false);
-    }
-
     /**
      * Returns a new instance of this fragment.
      */
-    public FragmentWeeklySchedule newInstance(Context context, List<Game> weekSchedule) {
-        mWeekSchedule = weekSchedule;
-        mContext = context;
-        this.setRetainInstance(true);
-        return this;
+    public static FragmentWeeklySchedule newInstance(Context context, int weekNumber) {
+        FragmentWeeklySchedule fragment = new FragmentWeeklySchedule();
+
+        Bundle args = new Bundle();
+        args.putInt("weekNumber", weekNumber);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    public void stopRefresh() {
+        refreshWeeklySchedule.setRefreshing(false);
+    }
+
+    public void updateList() {
+        mWeekSchedule = Game.find(Game.class, "week_number = ?", String.valueOf(getArguments().get("weekNumber")));
+        ca.updateList(mWeekSchedule);
+        ca.notifyDataSetChanged();
+    }
+
+    public void stopRefreshing() {
+        refreshWeeklySchedule.setRefreshing(false);
     }
 
     @Override
@@ -56,10 +70,14 @@ public class FragmentWeeklySchedule extends BaseFragment {
         View rootView = inflater.inflate(R.layout.fragment_weekly_schedule, container, false);
         RecyclerView recList = (RecyclerView) rootView.findViewById(R.id.cardList);
         refreshWeeklySchedule = (SwipeRefreshLayout) rootView.findViewById(R.id.refreshWeeklySchedule);
+
+        mWeekSchedule = Game.find(Game.class, "week_number = ?", String.valueOf(getArguments().get("weekNumber")));
+
+        final int wN = getArguments().getInt("weekNumber");
         recList.setHasFixedSize(true);
         llm = new LinearLayoutManager(rootView.getContext());
         recList.setLayoutManager(llm);
-        WeeklyScheduleAdapter ca = new WeeklyScheduleAdapter(this.getActivity(), mWeekSchedule);
+        ca = new WeeklyScheduleAdapter(this.getActivity(), mWeekSchedule);
         mStickyHeaders = new StickyRecyclerHeadersDecoration(ca);
         recList.addItemDecoration(mStickyHeaders);
         recList.setAdapter(ca);
@@ -69,8 +87,7 @@ public class FragmentWeeklySchedule extends BaseFragment {
             @Override
             public void onRefresh() {
                 refreshWeeklySchedule.setRefreshing(true);
-                UpdateWeeklySchedules task = new UpdateWeeklySchedules(mContext);
-                task.setFragmentWeeklySchedule(mFragmentWeeklySchedule);
+                UpdateWeeklySchedules task = new UpdateWeeklySchedules(mFragmentWeeklySchedule);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else {

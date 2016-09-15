@@ -6,7 +6,7 @@ import com.orm.dsl.Ignore;
 import chris.eccleston.footballinfo.activities.BaseActivity;
 import chris.eccleston.footballinfo.activities.TeamsActivity;
 
-public class Team extends SugarRecord<Team> implements Comparable<Team> {
+public class Team extends SugarRecord implements Comparable<Team> {
     @Ignore
     protected static final long serialVersionUID = 1L;
 

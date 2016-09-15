@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import chris.eccleston.footballinfo.R;
@@ -21,8 +20,6 @@ public class FragmentTeamSchedule extends BaseFragment {
     public static SwipeRefreshLayout refreshScheduleList;
     public static TeamScheduleAdapter ca;
     public static LinearLayoutManager llm;
-    public static List<Schedule> schedule = new ArrayList<Schedule>();
-    protected static Team mTeam;
 
     public FragmentTeamSchedule() {}
 
@@ -31,8 +28,11 @@ public class FragmentTeamSchedule extends BaseFragment {
      */
     public static FragmentTeamSchedule newInstance(Team team) {
         FragmentTeamSchedule fragment = new FragmentTeamSchedule();
-        mTeam = team;
-        schedule = Schedule.find(Schedule.class, "team_id = ?", String.valueOf(mTeam.getTeamId()));
+
+        Bundle args = new Bundle();
+        args.putLong("teamID", team.getId() - 1);
+        fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -44,6 +44,9 @@ public class FragmentTeamSchedule extends BaseFragment {
         recList.setHasFixedSize(true);
         llm = new LinearLayoutManager(rootView.getContext());
         recList.setLayoutManager(llm);
+
+        final Team mTeam = Team.find(Team.class, "team_id = ?", String.valueOf(getArguments().get("teamID"))).get(0);
+        List<Schedule> schedule = Schedule.find(Schedule.class, "team_id = ?", String.valueOf(getArguments().getLong("teamID")));
 
         ca = new TeamScheduleAdapter(schedule, rootView.getContext());
         recList.setAdapter(ca);

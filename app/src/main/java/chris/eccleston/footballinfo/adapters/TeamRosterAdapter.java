@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.tasks.GetPlayerInfo;
 import chris.eccleston.footballinfo.types.Player;
@@ -36,13 +39,12 @@ public class TeamRosterAdapter extends RecyclerView.Adapter<TeamRosterAdapter.Te
         return mRosterList.size();
     }
 
-
     @Override
-    public void onBindViewHolder(TeamRosterViewHolder teamRosterViewHolder, int i) {
+    public void onBindViewHolder(TeamRosterViewHolder holder, int i) {
         Player ci = mRosterList.get(i);
-        teamRosterViewHolder.playerNumber.setText(ci.getNumber());
-        teamRosterViewHolder.playerName.setText(ci.getLastName() + ", " + ci.getFirstName());
-        teamRosterViewHolder.playerPosition.setText(ci.getPosition());
+        holder.playerNumber.setText(ci.getNumber());
+        holder.playerName.setText(ci.getLastName() + ", " + ci.getFirstName());
+        holder.playerPosition.setText(ci.getPosition());
     }
 
     @Override
@@ -51,20 +53,20 @@ public class TeamRosterAdapter extends RecyclerView.Adapter<TeamRosterAdapter.Te
         return new TeamRosterViewHolder(itemView);
     }
 
-    public class TeamRosterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView playerNumber;
-        protected TextView playerName;
-        protected TextView playerPosition;
+    public class TeamRosterViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.rosterNumber)
+        TextView playerNumber;
+        @BindView(R.id.rosterName)
+        TextView playerName;
+        @BindView(R.id.rosterPos)
+        TextView playerPosition;
 
         public TeamRosterViewHolder(View v) {
             super(v);
-            v.setOnClickListener(this);
-            playerNumber = (TextView)  v.findViewById(R.id.rosterNumber);
-            playerName = (TextView)  v.findViewById(R.id.rosterName);
-            playerPosition = (TextView) v.findViewById(R.id.rosterPos);
+            ButterKnife.bind(this, v);
         }
 
-        @Override
+        @OnClick({R.id.rosterCard})
         public void onClick(View v) {
             String playerUrl = mRosterList.get(this.getAdapterPosition()).getLink();
             GetPlayerInfo playerInfoTask = new GetPlayerInfo(mContext, mTeam, mRosterList.get(this.getAdapterPosition()));

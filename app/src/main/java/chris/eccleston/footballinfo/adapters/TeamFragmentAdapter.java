@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,30 +22,26 @@ public class TeamFragmentAdapter extends FragmentPagerAdapter {
     protected List<Player> mRoster;
     private Context mContext;
 
+    private List<Fragment> fragments = new ArrayList<Fragment>();
+
     public TeamFragmentAdapter(FragmentManager fm, Context c, Team team, List<Player> roster) {
         super(fm);
         mContext = c;
         mTeam = team;
         mRoster = roster;
+        fragments.add(FragmentTeamRoster.newInstance(c, team, roster));
+        fragments.add(FragmentTeamSchedule.newInstance(team));
+        fragments.add(FragmentTeamInfo.newInstance(c, team));
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return FragmentTeamRoster.newInstance(mTeam, mRoster);
-            case 1:
-                return FragmentTeamSchedule.newInstance(mTeam);
-            case 2:
-                return FragmentTeamInfo.newInstance(mTeam);
-            default:
-                return null;
-        }
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return fragments.size();
     }
 
     @Override

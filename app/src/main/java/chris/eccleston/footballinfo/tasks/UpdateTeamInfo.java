@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,10 +61,15 @@ public class UpdateTeamInfo extends AsyncTask<Team, Void, Void> {
             try {
                 if (isOnline()) {
                     FileOutputStream out = new FileOutputStream(file);
-                    Connection con = Jsoup.connect(baseURL + team_info_urls[s_team.getTeamId()]).userAgent("Mozilla").timeout(10 * 1000);
+                    Connection con = Jsoup.connect(baseURL + team_info_urls[s_team.getTeamId()]).userAgent("Mozilla").timeout(10000);
                     Document doc = con.get();
 
-                    info_box_text = doc.select("table[class=infobox]").outerHtml().toString();
+                    Element table = doc.select("table[class=infobox]").first();
+
+                    table.select("tr").first().remove();
+                    table.select("tr").first().remove();
+
+                    info_box_text = table.outerHtml().toString();
                     info_box_text = info_box_text.replaceAll("width:.*em;", "");
                     info_box_text = info_box_text.replaceAll("width:300px", "width:100%");
                     info_box_text = info_box_text.replaceAll("<a.*?href=\".*?>", "");
@@ -71,7 +77,6 @@ public class UpdateTeamInfo extends AsyncTask<Team, Void, Void> {
                     info_box_text = info_box_text.replaceAll("<sup .*?>.*?</sup>", "");
                     info_box_text = info_box_text.replaceAll("src=\"", "src=\"https:");
                     info_box_text = info_box_text.replaceAll("srcset.*?\"", "");
-                    info_box_text = info_box_text.replaceAll("<tr>\\s+<td.*?Current season.*?</td>\\s+</tr>", "");
                     info_box_text += "\n" + "<style> body { width:100%;margin:0; } </style>";
 
                     out.write(info_box_text.getBytes());

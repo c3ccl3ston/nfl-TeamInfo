@@ -12,9 +12,9 @@
     <style name="nfl_theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="colorPrimary">@color/nfl_primary_color</item>
-        <item name="colorPrimaryDark">@color/nfl_primary_color_dark</item>
-        <item name="colorAccent">@color/nfl_color_accent</item>
+        <item name="android:colorPrimary">@color/nfl_primary_color</item>
+        <item name="android:colorPrimaryDark">@color/nfl_primary_color_dark</item>
+        <item name="android:colorAccent">@color/nfl_color_accent</item>
         <item name="android:textColor">@color/nfl_primary_color</item>
         <item name="android:textColorPrimary">@color/nfl_color_accent</item>
         <item name="android:textColorSecondary">@color/nfl_color_accent</item>

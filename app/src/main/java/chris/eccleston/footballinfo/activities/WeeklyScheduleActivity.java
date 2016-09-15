@@ -10,15 +10,15 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
-
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindColor;
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import chris.eccleston.footballinfo.DepthPageTransformer;
 import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.adapters.WeeklyScheduleFragmentAdapter;
@@ -29,14 +29,25 @@ import chris.eccleston.footballinfo.types.Game;
  */
 public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
-    //    @InjectView(R.id.my_pager)
-    public static ViewPager mPager;
     Context mContext;
     List<List<Game>> mAllGames;
     WeeklyScheduleFragmentAdapter mFragmentAdapter;
-    @InjectView(R.id.tabs)
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.tabs)
     TabLayout mTabs;
+
+    @BindView(R.id.my_pager)
+    ViewPager mPager;
     int mTabPosition = -1;
+
+    @BindColor(R.color.nfl_color_accent)
+    int NFLColorAccent;
+    @BindColor(R.color.nfl_primary_color)
+    int NFLColorPrimary;
+    @BindColor(R.color.nfl_primary_color_dark)
+    int NFLColorDark;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -46,41 +57,27 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
 
         mContext = this;
 
-        ButterKnife.inject(this);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mPager = (ViewPager) findViewById(R.id.my_pager);
+        ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.nfl_primary_color)));
-//        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_material, getResources().getColor(R.color.nfl_color_accent)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setTitle("Schedule");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setNavigationBarTintEnabled(true);
-            tintManager.setTintColor(darken(getResources().getColor(R.color.nfl_primary_color), 0.25));
-            getWindow().setStatusBarColor(darken(getResources().getColor(R.color.nfl_primary_color), 0.25));
-        }
-
-        mAllGames = new ArrayList<>();
+        mAllGames = new ArrayList<List<Game>>();
         for (int i = 1; i <= 17; i++) {
             List<Game> mWeeklyGames = Game.find(Game.class, "week_number = ?", String.valueOf(i));
+            Log.d("DEBUG", "Finding games for week " + i);
+            Log.d("DEBUG", "Found " + mWeeklyGames.size() + " games");
             mAllGames.add(mWeeklyGames);
         }
-        // Initialize the ViewPager and set an adapter
-        mFragmentAdapter = new WeeklyScheduleFragmentAdapter(mContext, getSupportFragmentManager(), mAllGames);
-        mPager.setAdapter(mFragmentAdapter);
 
-        mTabs.setupWithViewPager(mPager);
-        mTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
-        mPager.addOnPageChangeListener(this);
+        mTabs.setBackgroundColor(NFLColorPrimary);
 
         mTabs.setTabTextColors(Color.WHITE, Color.WHITE);
-        mTabs.setOnTabSelectedListener(this);
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.nfl_color_accent));
-        mToolbar.setSubtitleTextColor(getResources().getColor(R.color.nfl_color_accent));
+        mTabs.setSelectedTabIndicatorColor(Color.WHITE);
+        mTabs.addOnTabSelectedListener(this);
+        setToolbarColors(mToolbar, NFLColorPrimary, NFLColorDark, NFLColorAccent);
 
         mPager.setPageTransformer(true, new DepthPageTransformer());
     }
@@ -107,6 +104,13 @@ public class WeeklyScheduleActivity extends BaseActivity implements ViewPager.On
     @Override
     protected void onStart() {
         super.onStart();
+
+        mFragmentAdapter = new WeeklyScheduleFragmentAdapter(this, getSupportFragmentManager(), mAllGames);
+        mPager.setAdapter(mFragmentAdapter);
+        mTabs.setupWithViewPager(mPager);
+        mTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mPager.addOnPageChangeListener(this);
+
         if (mTabPosition != -1) {
             mPager.setCurrentItem(mTabPosition);
         }

@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Chris on 2/12/2015.
  */
-public class Schedule extends SugarRecord<Schedule> {
+public class Schedule extends SugarRecord {
     private int scheduleId;
     private Date date = new Date();
     private int againstTeam;

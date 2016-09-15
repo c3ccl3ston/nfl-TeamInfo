@@ -5,7 +5,7 @@ import com.orm.SugarRecord;
 /**
  * Created by Chris on 8/20/2015.
  */
-public class Game extends SugarRecord<Game> {
+public class Game extends SugarRecord {
     public int weekNumber;
     public String awayTeam;
     public String homeTeam;

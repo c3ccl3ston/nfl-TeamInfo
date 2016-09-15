@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:windowTranslucentStatus="true"
-    tools:context=".TeamsActivity">
+    tools:context=".activities.TeamsActivity">
 
     <include layout="@layout/toolbar"/>
 

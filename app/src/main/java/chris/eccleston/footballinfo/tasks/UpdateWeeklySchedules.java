@@ -1,7 +1,7 @@
 package chris.eccleston.footballinfo.tasks;
 
-import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -17,15 +17,15 @@ import chris.eccleston.footballinfo.types.Game;
  */
 public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
 
-    Context mContext;
-    FragmentWeeklySchedule mFragmentWeeklySchedule;
+    protected int gameID = 1;
+    protected int weekNumber;
+    FragmentWeeklySchedule mFragment;
 
-    public UpdateWeeklySchedules(Context context) {
-        mContext = context;
+    public UpdateWeeklySchedules() {
     }
 
-    public void setFragmentWeeklySchedule(FragmentWeeklySchedule fragment) {
-        mFragmentWeeklySchedule = fragment;
+    public UpdateWeeklySchedules(FragmentWeeklySchedule fragment) {
+        mFragment = fragment;
     }
 
     @Override
@@ -49,13 +49,17 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
         boolean wasOvertime = false;
 
         int dateId = 1;
-        int gameID = 1;
         try {
             for (int weekNum = 1; weekNum <= 17; weekNum++) {
                 String url = "http://www.nfl.com/schedules/2016/REG" + weekNum;
-                Connection con = Jsoup.connect(url).userAgent("Mozilla").timeout(10 * 1000);
+                Connection con = Jsoup.connect(url).userAgent("Mozilla").timeout(10000);
                 Document doc = con.get();
-                Elements scheduleTable = doc.select("ul.schedules-table").get(1).select("li");
+                Elements scheduleTable = doc.select("ul.schedules-table");
+                if (scheduleTable.size() > 1) {
+                    scheduleTable = scheduleTable.get(1).select("li");
+                } else {
+                    scheduleTable = scheduleTable.get(0).select("li");
+                }
 
                 String date = "";
                 for (Element item : scheduleTable) {
@@ -73,15 +77,15 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
                         Game existing_game = null;
                         try {
                             existing_game = Game.find(Game.class, "game_id = ?", String.valueOf(gameID)).get(0);
+                            gameID++;
                         } catch (Exception e) {
+                            Log.d("DEBUG", "Matching game was not found");
                         }
 
                         if (existing_game != null) {
                             existing_game.updateGame(awayScore, homeScore, wasOvertime);
                         } else {
-                            Game new_game = new Game(gameID, date, weekNum, awayTeam, homeTeam, gameTime, pm, awayScore, homeScore, false);
-                            new_game.save();
-                            gameID++;
+                            new Game(gameID++, date, weekNum, awayTeam, homeTeam, gameTime, pm, awayScore, homeScore, false).save();
                         }
                     }
                 }
@@ -95,8 +99,7 @@ public class UpdateWeeklySchedules extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-        if (mFragmentWeeklySchedule != null) {
-            mFragmentWeeklySchedule.stopRefreshing();
-        }
+        mFragment.stopRefresh();
+        mFragment.updateList();
     }
 }

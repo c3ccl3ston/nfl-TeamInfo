@@ -1,26 +1,24 @@
 package chris.eccleston.footballinfo.activities;
 
-import android.annotation.TargetApi;
-import android.content.Context;
+import android.app.ActivityManager;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import chris.eccleston.footballinfo.DepthPageTransformer;
 import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.adapters.TeamFragmentAdapter;
@@ -29,89 +27,84 @@ import chris.eccleston.footballinfo.tasks.GetPlayerInfo;
 import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
 
-public class TeamActivity extends BaseActivity implements ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+public class TeamActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
 
+    public static int sortOrder = R.id.roster_sort_by_name;
+    protected static int SORT_ORDER = 0;
     public Team mTeam;
-
     public int mColorAccent;
     public int mColorPrimary;
-
     protected String mTeamLocation;
     protected String mTeamName;
-
     protected List<Player> mRoster;
-
     protected Menu mOptionsMenu;
-
-    @InjectView(R.id.tabs)
+    int mColorDark;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.tabs)
     TabLayout mTabs;
-    @InjectView(R.id.my_pager)
+    @BindView(R.id.my_pager)
     ViewPager mPager;
-
     int mTabPosition = -1;
-
     TeamFragmentAdapter mfa;
-
-    Context mContext;
-
     TeamActivity prevActivity = null;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         mTeam = Team.find(Team.class, "team_id = ?", String.valueOf(intent.getIntExtra(TEAM_ID, 0))).get(0);
         mRoster = Player.find(Player.class, "team_id = ?", String.valueOf(mTeam.getTeamId()));
 
-        sortRosterByName(mRoster);
+        Collections.sort(mRoster);
         mTeamLocation = mTeam.getLocation();
         mTeamName = mTeam.getTeamName();
         mColorPrimary = mTeam.getColorPrimary();
         mColorAccent = mTeam.getColorAccent();
+        mColorDark = mTeam.getColorPrimaryDark();
         int theme = mTeam.getThemeId();
         int popup_theme = mTeam.getTeamPopupId();
 
         setTheme(theme);
-
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team);
 
         mContext = this;
 
-//        if (savedInstanceState != null) {
-//            mTabPosition = savedInstanceState.getInt("TAB");
-//        }
-
-        ButterKnife.inject(this);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         mToolbar.setPopupTheme(popup_theme);
-        setTheme(theme);
         setSupportActionBar(mToolbar);
-        try {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(mColorPrimary));
-        } catch (NullPointerException npe) {
-        }
-        getSupportActionBar().setHomeAsUpIndicator(colorizeIcon(R.drawable.abc_ic_ab_back_material, mColorAccent));
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.abc_ic_ab_back_material);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setToolbarColors(mToolbar, mColorPrimary, mColorDark, mColorAccent);
 
         setTitle(mTeamLocation + " " + mTeamName);
         updateSubtitle(mTeam);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setNavigationBarTintEnabled(true);
-            tintManager.setTintColor(darken(mColorPrimary, 0.25));
-            getWindow().setStatusBarColor(darken(mColorPrimary, 0.25));
-        }
-
         mTabs.setTabTextColors(mColorAccent, mColorAccent);
         mTabs.setBackgroundColor(mColorPrimary);
-        mTabs.setOnTabSelectedListener(this);
-        mToolbar.setTitleTextColor(mColorAccent);
-        mToolbar.setSubtitleTextColor(mColorAccent);
 
         mPager.setPageTransformer(true, new DepthPageTransformer());
+        mPager.setOffscreenPageLimit(2);
+    }
+
+    public void updateSubtitle(Team team) {
+        if (team.getTies() != 0) {
+            mToolbar.setSubtitle("(" + team.getWins() + " - " + team.getLosses() + " - " + team.getTies() + ")");
+        } else {
+            mToolbar.setSubtitle("(" + team.getWins() + " - " + team.getLosses() + ")");
+        }
+    }
+
+    public Drawable colorizeIcon(int icon, int color) {
+        Drawable arrowDrawable = ContextCompat.getDrawable(mContext, icon);
+        Drawable wrapped = DrawableCompat.wrap(arrowDrawable);
+
+        if (arrowDrawable != null && wrapped != null) {
+            arrowDrawable.mutate();
+            DrawableCompat.setTint(wrapped, color);
+        }
+
+        return wrapped;
     }
 
     @Override
@@ -128,6 +121,11 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         } else {
             mPager.setCurrentItem(1);
         }
+
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), mTeam.getTeamLogo());
+        ActivityManager.TaskDescription tDesc = new ActivityManager.TaskDescription(mTeamLocation + " " + mTeamName, icon, mColorPrimary);
+        this.setTaskDescription(tDesc);
+
     }
 
     @Override
@@ -180,30 +178,6 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-    public void handleMenuCheckboxes(Menu menu) {
-        mOptionsMenu = menu;
-        MenuItem sort_item_name = mOptionsMenu.findItem(R.id.roster_sort_by_name);
-        MenuItem sort_item_position = mOptionsMenu.findItem(R.id.roster_sort_by_position);
-        MenuItem sort_item_number = mOptionsMenu.findItem(R.id.roster_sort_by_number);
-        switch (SORT_ORDER) {
-            case SORT_BY_NAME:
-                sort_item_name.setChecked(true);
-                sort_item_position.setChecked(false);
-                sort_item_number.setChecked(false);
-                break;
-            case SORT_BY_NUMBER:
-                sort_item_name.setChecked(false);
-                sort_item_position.setChecked(false);
-                sort_item_number.setChecked(true);
-                break;
-            case SORT_BY_POSITION:
-                sort_item_name.setChecked(false);
-                sort_item_position.setChecked(true);
-                sort_item_number.setChecked(false);
-                break;
-        }
-    }
-
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return this;
@@ -215,7 +189,6 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         getMenuInflater().inflate(R.menu.menu_team_roster, mOptionsMenu);
         menu.findItem(R.id.sort).setVisible(mPager.getCurrentItem() != 0 ? false : true);
         mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, mColorAccent));
-        handleMenuCheckboxes(mOptionsMenu);
         return true;
     }
 
@@ -223,7 +196,6 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
     public boolean onPrepareOptionsMenu(Menu menu) {
         mOptionsMenu = menu;
         mOptionsMenu.getItem(0).setIcon(colorizeIcon(R.drawable.ic_menu_sort_by_size, mColorAccent));
-        handleMenuCheckboxes(mOptionsMenu);
         return super.onPrepareOptionsMenu(mOptionsMenu);
     }
 
@@ -234,22 +206,32 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
         if (item.isChecked() && item.getItemId() != R.id.sort) {
             Collections.reverse(mRoster);
         } else {
+            MenuItem sort_item_name = mOptionsMenu.findItem(R.id.roster_sort_by_name);
+            MenuItem sort_item_position = mOptionsMenu.findItem(R.id.roster_sort_by_position);
+            MenuItem sort_item_number = mOptionsMenu.findItem(R.id.roster_sort_by_number);
+
             switch (id) {
                 case R.id.sort:
-                    handleMenuCheckboxes(mOptionsMenu);
                     return super.onOptionsItemSelected(item);
                 case R.id.roster_sort_by_name:
-                    sortRosterByName(mRoster);
+                    sort_item_name.setChecked(true);
+                    sort_item_position.setChecked(false);
+                    sort_item_number.setChecked(false);
                     break;
                 case R.id.roster_sort_by_number:
-                    sortRosterByNumber(mRoster);
+                    sort_item_name.setChecked(false);
+                    sort_item_position.setChecked(false);
+                    sort_item_number.setChecked(true);
                     break;
                 case R.id.roster_sort_by_position:
-                    sortRosterByPosition(mRoster);
+                    sort_item_name.setChecked(false);
+                    sort_item_position.setChecked(true);
+                    sort_item_number.setChecked(false);
                     break;
-                default:
-                    sortRosterByName(mRoster);
             }
+
+            sortOrder = id;
+            Collections.sort(mRoster);
         }
         FragmentTeamRoster.ca.updateList(mRoster);
         return super.onOptionsItemSelected(item);
@@ -266,38 +248,5 @@ public class TeamActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public void onPageScrollStateChanged(int state) {
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-//        if (tab.getText().equals("SCHEDULE")) {
-//            mPager.setCurrentItem(0);
-//        }
-//        if (tab.getText().equals("ROSTER")) {
-//            mPager.setCurrentItem(1);
-//        }
-//        if (tab.getText().equals("INFO")) {
-//            mPager.setCurrentItem(2);
-//        }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-        View view = mPager.getFocusedChild();
-        if (view != null) {
-            if (mPager.getCurrentItem() == 0 || mPager.getCurrentItem() == 1) {
-                ((RecyclerView) view.findViewById(R.id.cardList)).scrollToPosition(0);
-            }
-            if (mPager.getCurrentItem() == 2) {
-                if (view.findViewById(R.id.webScroll) != null) {
-                    view.findViewById(R.id.webScroll).scrollTo(0, 0);
-                }
-            }
-        }
     }
 }

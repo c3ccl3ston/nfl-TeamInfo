@@ -18,12 +18,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.fragments.FragmentTeamRoster;
 import chris.eccleston.footballinfo.types.Player;
 import chris.eccleston.footballinfo.types.Team;
-
-import static android.support.v4.content.ContextCompat.getDrawable;
 
 /**
  * Created by Chris on 2/9/2015.
@@ -56,18 +53,7 @@ public class UpdateRoster extends AsyncTask<Team, Integer, Void> {
 
     @Override
     protected void onPreExecute() {
-        if (!singleTeam) {
-            progress_dialog = new ProgressDialog(mContext, R.style.initialize_theme);
-            progress_dialog.setMessage("Initializing files");
-            progress_dialog.setIndeterminate(false);
-            progress_dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progress_dialog.setCancelable(false);
-            progress_dialog.setProgress(0);
-            progress_dialog.setMax(100);
-            progress_dialog.setProgressNumberFormat(null);
-            progress_dialog.setProgressDrawable(getDrawable(mContext, R.drawable.progressbar_states));
-            progress_dialog.show();
-        }
+
     }
 
     protected Void doInBackground(Team... params) {

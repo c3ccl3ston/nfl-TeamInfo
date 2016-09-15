@@ -13,6 +13,8 @@ import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.types.Game;
 import chris.eccleston.footballinfo.types.Team;
@@ -27,7 +29,12 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
 
     public WeeklyScheduleAdapter(Context context, List<Game> weekSchedule) {
         mContext = context;
-        mWeekSchedule = weekSchedule;
+        this.mWeekSchedule = weekSchedule;
+    }
+
+    public void updateList(List<Game> data) {
+        mWeekSchedule = data;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -60,33 +67,48 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
 
 
     @Override
-    public void onBindViewHolder(WeeklyScheduleViewHolder weeklyScheduleViewHolder, int i) {
+    public void onBindViewHolder(WeeklyScheduleViewHolder holder, int i) {
         Game mGame = mWeekSchedule.get(i);
-        weeklyScheduleViewHolder.awayTeam.setText(mGame.getAwayTeam());
+
+        holder.awayScore.setVisibility(View.GONE);
+        holder.homeScore.setVisibility(View.GONE);
+
+        holder.awayLogo.setVisibility(View.VISIBLE);
+        holder.homeLogo.setVisibility(View.VISIBLE);
+        holder.gameTime.setVisibility(View.VISIBLE);
+
+        holder.awayTeam.setText(mGame.getAwayTeam());
         Team awayTeam = Team.find(Team.class, "team_name = ?", mGame.getAwayTeam()).get(0);
-        weeklyScheduleViewHolder.homeTeam.setText(mGame.getHomeTeam());
+        holder.homeTeam.setText(mGame.getHomeTeam());
         Team homeTeam = Team.find(Team.class, "team_name = ?", mGame.getHomeTeam()).get(0);
 
         if (mGame.getGameTime().equals("FINAL")) {
-            weeklyScheduleViewHolder.homeScore.setVisibility(View.VISIBLE);
-            weeklyScheduleViewHolder.awayScore.setVisibility(View.VISIBLE);
-            weeklyScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
-            weeklyScheduleViewHolder.pm.setVisibility(View.GONE);
-            weeklyScheduleViewHolder.et.setVisibility(View.GONE);
-            weeklyScheduleViewHolder.gameTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            weeklyScheduleViewHolder.homeScore.setText(mGame.getHomeScore());
-            weeklyScheduleViewHolder.awayScore.setText(mGame.getAwayScore());
+            if (mGame.wasOvertime) {
+                holder.overTime.setVisibility(View.VISIBLE);
+            } else {
+                holder.overTime.setVisibility(View.GONE);
+            }
+            holder.homeScore.setVisibility(View.VISIBLE);
+            holder.awayScore.setVisibility(View.VISIBLE);
+            holder.pm.setVisibility(View.GONE);
+            holder.et.setVisibility(View.GONE);
+
+            holder.gameTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+            holder.gameTime.setText(mGame.getGameTime());
+            holder.homeScore.setText(mGame.getHomeScore());
+            holder.awayScore.setText(mGame.getAwayScore());
         } else {
-            weeklyScheduleViewHolder.gameTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 35);
-            weeklyScheduleViewHolder.gameTime.setVisibility(View.VISIBLE);
-            weeklyScheduleViewHolder.pm.setVisibility(View.VISIBLE);
-            weeklyScheduleViewHolder.et.setVisibility(View.VISIBLE);
-            weeklyScheduleViewHolder.homeScore.setVisibility(View.GONE);
-            weeklyScheduleViewHolder.awayScore.setVisibility(View.GONE);
+            holder.pm.setVisibility(View.VISIBLE);
+            holder.et.setVisibility(View.VISIBLE);
+            holder.homeScore.setVisibility(View.GONE);
+            holder.awayScore.setVisibility(View.GONE);
+
+            holder.gameTime.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 35);
+            holder.gameTime.setText(mGame.getGameTime());
+            holder.pm.setText(mGame.getPm());
         }
-        weeklyScheduleViewHolder.awayLogo.setImageResource(awayTeam.getTeamLogo());
-        weeklyScheduleViewHolder.homeLogo.setImageResource(homeTeam.getTeamLogo());
-        weeklyScheduleViewHolder.gameTime.setText(mGame.getGameTime());
+        holder.awayLogo.setImageResource(awayTeam.getTeamLogo());
+        holder.homeLogo.setImageResource(homeTeam.getTeamLogo());
     }
 
     @Override
@@ -96,27 +118,30 @@ public class WeeklyScheduleAdapter extends RecyclerView.Adapter<WeeklyScheduleAd
     }
 
     public class WeeklyScheduleViewHolder extends RecyclerView.ViewHolder {
-        protected TextView awayTeam;
-        protected TextView homeTeam;
-        protected TextView awayScore;
-        protected TextView homeScore;
-        protected TextView gameTime;
-        protected ImageView awayLogo;
-        protected ImageView homeLogo;
-        protected TextView pm;
-        protected TextView et;
+        @BindView(R.id.weekly_away_team)
+        TextView awayTeam;
+        @BindView(R.id.weekly_home_team)
+        TextView homeTeam;
+        @BindView(R.id.weekly_away_score)
+        TextView awayScore;
+        @BindView(R.id.weekly_home_score)
+        TextView homeScore;
+        @BindView(R.id.weekly_game_time)
+        TextView gameTime;
+        @BindView(R.id.weekly_away_logo)
+        ImageView awayLogo;
+        @BindView(R.id.weekly_home_logo)
+        ImageView homeLogo;
+        @BindView(R.id.weekly_game_time_pm)
+        TextView pm;
+        @BindView(R.id.weekly_game_time_et)
+        TextView et;
+        @BindView(R.id.weekly_game_was_ot)
+        TextView overTime;
 
         public WeeklyScheduleViewHolder(View v) {
             super(v);
-            awayTeam = (TextView) v.findViewById(R.id.weekly_away_team);
-            homeTeam = (TextView) v.findViewById(R.id.weekly_home_team);
-            awayScore = (TextView) v.findViewById(R.id.weekly_away_score);
-            homeScore = (TextView) v.findViewById(R.id.weekly_home_score);
-            awayLogo = (ImageView) v.findViewById(R.id.weekly_away_logo);
-            homeLogo = (ImageView) v.findViewById(R.id.weekly_home_logo);
-            gameTime = (TextView) v.findViewById(R.id.weekly_game_time);
-            pm = (TextView) v.findViewById(R.id.weekly_game_time_pm);
-            et = (TextView) v.findViewById(R.id.weekly_game_time_et);
+            ButterKnife.bind(this, v);
         }
     }
 }

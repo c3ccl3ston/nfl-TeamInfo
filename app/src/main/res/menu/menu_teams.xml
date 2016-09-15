@@ -21,8 +21,8 @@
         android:title="@string/sort_options"
         app:showAsAction="always">
         <menu>
-            <group 
-                android:id="@+id/sortMenu"
+            <group
+                android:id="@+id/sortMenuTeams"
                 android:checkableBehavior="single">
                 <item
                     android:id="@+id/teams_sort_by_location"

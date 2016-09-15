@@ -1,10 +1,14 @@
 package chris.eccleston.footballinfo.tasks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -22,14 +26,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import chris.eccleston.footballinfo.activities.TeamActivity;
+import chris.eccleston.footballinfo.R;
 import chris.eccleston.footballinfo.activities.TeamsActivity;
 import chris.eccleston.footballinfo.adapters.TeamAdapter;
 import chris.eccleston.footballinfo.fragments.FragmentTeamSchedule;
 import chris.eccleston.footballinfo.types.Schedule;
 import chris.eccleston.footballinfo.types.Team;
 
-public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
+public class UpdateSchedule extends AsyncTask<Team, Integer, Void> {
     private final String baseURL = "http://espn.go.com/nfl/team/schedule/_/name/";
     private final String[] team_schedule_urls = {"ari", "atl", "bal", "buf",
             "car", "chi", "cin", "cle", "dal", "den",
@@ -41,7 +45,9 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
                     "Dallas", "Denver", "Detroit", "Green Bay", "Houston", "Indianapolis", "Jacksonville", "Kansas City", "Miami",
                     "Minnesota", "New England", "New Orleans", "New York", "New York", "Oakland", "Philadelphia", "Pittsburgh", "San Diego",
                     "Seattle", "San Francisco", "Los Angeles", "Tampa Bay", "Tennessee", "Washington"};
+    public MaterialDialog mProgressDialog;
     private boolean mSingleTeam;
+    private boolean mInitialLoad;
     private Team mTeam;
     private Context mContext;
     private TeamAdapter mTeamAdapter;
@@ -58,13 +64,37 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
         mSingleTeam = isSingleTeam;
     }
 
+    public void setInitialLoad(boolean initialLoad) {
+        mInitialLoad = initialLoad;
+    }
+
     @Override
     protected void onPreExecute() {
+        if (mInitialLoad) {
+            mProgressDialog = new MaterialDialog.Builder(mContext)
+                    .title("Initializing files")
+                    .titleColorRes(R.color.nfl_primary_color)
+                    .progress(false, 32, false)
+                    .backgroundColor(Color.WHITE)
+                    .cancelable(false)
+                    .contentColorRes(R.color.nfl_primary_color)
+                    .widgetColorRes(R.color.nfl_primary_color)
+                    .show();
+        }
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        mProgressDialog.incrementProgress(1);
     }
 
     @Override
     protected Void doInBackground(Team... params) {
         for (int i = 0; i < params.length; i++) {
+            if (mInitialLoad) {
+                publishProgress(i);
+            }
+
             mTeam = Team.find(Team.class, "team_id = ?", String.valueOf(params[i].getTeamId())).get(0);
             int num_wins = 0, num_losses = 0, num_ties = 0;
 
@@ -212,14 +242,16 @@ public class UpdateSchedule extends AsyncTask<Team, Void, Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-
         if (mSingleTeam) {
             List<Schedule> new_roster = Schedule.find(Schedule.class, "team_id = ?", String.valueOf(mTeam.getTeamId()));
             FragmentTeamSchedule.ca.updateList(new_roster);
             FragmentTeamSchedule.ca.notifyDataSetChanged();
             FragmentTeamSchedule.refreshScheduleList.setRefreshing(false);
-            TeamActivity.updateSubtitle(mTeam);
+            ((AppCompatActivity) mContext).getSupportActionBar().setSubtitle("(" + mTeam.getWins() + " - " + mTeam.getLosses() + ")");
         } else {
+            if (mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+            }
             TeamsActivity.refreshTeamsList.setRefreshing(false);
             List<Team> mTeams = Team.listAll(Team.class);
             Collections.sort(mTeams);
